@@ -1,0 +1,13 @@
+@import "~bootstrap/scss/bootstrap.scss";
+@import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "~@fortawesome/fontawesome-free/scss/solid.scss";
+@import "~vue-multiselect/dist/vue-multiselect.css";
+@import "multicalendar.scss";
+@import "multiselect.scss";
+@import "sidebar.scss";
+@import "scrolltop.scss";
+@import "vue-transition.scss";
+
+html {
+    scroll-behavior: smooth;
+}

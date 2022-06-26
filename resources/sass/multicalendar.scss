@@ -1,0 +1,49 @@
+:root {
+    --vdp-bg-color: #fff;
+    --vdp-text-color: #000;
+    --vdp-box-shadow: 0 4px 10px 0 rgba(128, 144, 160, 0.1),
+        0 0 1px 0 rgba(128, 144, 160, 0.81);
+    --vdp-border-radius: 3px;
+    --vdp-heading-size: 2.5em;
+    --vdp-heading-weight: bold;
+    --vdp-heading-hover-color: #eeeeee;
+    --vdp-arrow-color: currentColor;
+    --vdp-elem-color: currentColor;
+    --vdp-disabled-color: #d5d9e0;
+    --vdp-hover-color: #fff;
+    --vdp-hover-bg-color: #0d6efd;
+    --vdp-selected-color: #fff;
+    --vdp-selected-bg-color: #6c757d;
+    --vdp-elem-font-size: 0.8em;
+    --vdp-elem-border-radius: 3px;
+    --vdp-divider-color: #d5d9e0;
+}
+
+.input-date {
+    width: 100%;
+    padding: $input-padding-y $input-padding-x;
+    font-size: $input-font-size;
+    font-weight: $input-font-weight;
+    line-height: $input-line-height;
+    color: $input-color;
+    background-color: $input-bg;
+    background-clip: padding-box;
+    border: $input-border-width solid $input-border-color;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: $input-border-radius;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+.input-date:focus {
+    color: $input-focus-color;
+    background-color: $input-focus-bg;
+    border-color: $input-focus-bg;
+    outline: 0;
+    box-shadow: $input-focus-box-shadow;
+}
+.v3dp__clearable {
+    position: absolute !important;
+    left: 19.3rem !important;
+    top: 0.35rem;
+}

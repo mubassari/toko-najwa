@@ -1,0 +1,30 @@
+$tn-scrool-top: 0.3s ease-in-out;
+
+.scroll-to-top {
+    position: fixed;
+    right: $spacer;
+    bottom: $spacer;
+    width: 2.75rem;
+    height: 2.75rem;
+    text-align: center;
+    color: $light;
+    background: rgba($secondary, 0.5);
+    line-height: 46px;
+    transition: all $tn-scrool-top;
+
+    &:focus {
+        color: $light;
+        transition: all $tn-scrool-top;
+    }
+
+    &:hover {
+        color: $light;
+        transition: all $tn-scrool-top;
+        background: $gray-700;
+        transition: all $tn-scrool-top;
+    }
+
+    i {
+        font-weight: 800;
+    }
+}
