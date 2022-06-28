@@ -1,5 +1,8 @@
 <template>
     <inertia-head title="Beranda"></inertia-head>
+    <div class="mb-5 text-center">
+        <h3>Selamat Datang, {{ $attrs.auth.user.nama }}!</h3>
+    </div>
     <div class="row">
         <template v-for="(link, key) in homeLink" :key="key">
             <div

@@ -15,16 +15,7 @@
             </main>
         </div>
     </div>
-    <!-- Scroll to top -->
-    <transition name="fade" mode="out-in">
-        <a
-            class="scroll-to-top text-white rounded"
-            @click="scrollToTop"
-            v-show="scrolled"
-        >
-            <i class="fa-solid fa-angle-up"></i>
-        </a>
-    </transition>
+    <scroll-top></scroll-top>
 </template>
 
 <script>
@@ -32,26 +23,15 @@
 import Sidebar from "@Components/Sidebar.vue";
 import Navbar from "@Components/Navbar.vue";
 import Toast from "@Components/Toast.vue";
+import ScrollTop from "@Components/ScrollTop.vue";
 
 export default {
-    components: { Sidebar, Navbar, Toast },
+    components: { Sidebar, Navbar, Toast, ScrollTop },
     inheritAttrs: true,
     data() {
-        return { scrolled: false, sidebarToggled: false };
-    },
-    created() {
-        window.addEventListener("scroll", this.handleScroll);
-    },
-    beforeDestroy() {
-        window.removeEventListener("scroll", this.handleScroll);
+        return { sidebarToggled: false };
     },
     methods: {
-        handleScroll(event) {
-            this.scrolled = window.scrollY > 100;
-        },
-        scrollToTop() {
-            window.scrollTo(0, 0);
-        },
         toggleSidebar() {
             this.sidebarToggled = !this.sidebarToggled;
         },

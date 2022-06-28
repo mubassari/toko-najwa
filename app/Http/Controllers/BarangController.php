@@ -56,6 +56,7 @@ class BarangController extends Controller
         ->limit(5)->get()->map(function($data) {
             return [
                 'id'           => $data->id,
+                'kode'         => $data->kode,
                 'nama'         => $data->nama,
                 'satuan'       => $data->Satuan->nama,
                 'kategori'     => $data->Kategori->nama,

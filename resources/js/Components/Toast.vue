@@ -3,7 +3,7 @@
         <div
             v-if="toast.message && visible && !popstate"
             style="
-                z-index: 3;
+                z-index: 9999999999;
                 position: fixed;
                 right: 1rem;
                 top: 1rem;

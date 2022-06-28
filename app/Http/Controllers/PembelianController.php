@@ -145,6 +145,7 @@ class PembelianController extends Controller
             }
             return [
                 'tanggal'          => $beli->tanggal,
+                'no_nota'          => $beli->no_nota,
                 'supplier'         => $beli->Supplier->nama,
                 'detail_pembelian' => $detail_pembelian,
             ];

@@ -31,6 +31,19 @@ class PenjualanController extends Controller
             })
             ->withSum('DetailPenjualan as jumlah_barang', 'jumlah')
             ->paginate(5)
+            ->through(function($data) {
+                $id_penjualan = Penjualan::whereDate('tanggal', '=', date('Y-m-d', strtotime($data->tanggal)))->get()->pluck('id')->search($data->id);
+                $kode = str_replace('-', '/', explode(' ', $data->tanggal)[0]).'/'.\Str::padleft($id_penjualan + 1, 3, 0);
+                return [
+                    'id'            => $data->id,
+                    'kode'          => $kode,
+                    'tanggal'       => $data->tanggal,
+                    'jumlah_barang' => $data->jumlah_barang,
+                    'total_jual'    => $data->DetailPenjualan->reduce(function($total, $item) {
+                        return $total + $item['jumlah'] * $item['harga'];
+                    }, 0)
+                ];
+            })
             ->withQueryString();
 
         return Inertia::render('Transaksi/Penjualan/Index', [
@@ -124,10 +137,13 @@ class PenjualanController extends Controller
                     'nama'   => $detail->DetailBarang->Barang->nama. ' — '. $detail->DetailBarang->nama,
                 ]);
             }
+            $id_penjualan = Penjualan::whereDate('tanggal', '=', date('Y-m-d', strtotime($jual->tanggal)))->get()->pluck('id')->search($jual->id);
+            $kode = str_replace('-', '/', explode(' ', $jual->tanggal)[0]).'/'.\Str::padleft($id_penjualan + 1, 3, 0);
             return [
-                'id'=>$jual->id,
-                'tanggal'=>$jual->tanggal,
-                'detail_penjualan'=>$detail_penjualan,
+                'id'               => $jual->id,
+                'kode'             => $kode,
+                'tanggal'          => $jual->tanggal,
+                'detail_penjualan' => $detail_penjualan,
             ];
         })->first();
 

@@ -34,7 +34,7 @@ class UserController extends Controller
             })
             ->withQueryString();
 
-        return Inertia::render('Auth/User/Index', [
+        return Inertia::render('Pengguna/Index', [
             'users' => $users,
             'filters'=>$request->only(['search'])
         ]);
@@ -56,7 +56,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return Inertia::render('Auth/User/Create');
+        return Inertia::render('Pengguna/Create');
     }
 
     /**
@@ -90,7 +90,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('Auth/User/Edit', [
+        return Inertia::render('Pengguna/Edit', [
             'user' => $user
         ]);
     }

@@ -8,12 +8,13 @@
         <div class="card-body">
             <form-report
                 v-bind="$attrs"
-                :title="'Laporan Riwayat Pengembalian Barang'"
+                :title="'Laporan Riwayat Pengembalian Barang' +
+                    (filter ? '' : ' Bulanan')"
                 :url="'/laporan/pengembalian'"
                 :data="{
                     filter: filter
                         ? 'Semua'
-                        : 'Per ' + getMonthYear(bulanan.time),
+                        : 'Periode ' + getMonthYear(bulanan.time),
                     type: filter ? null : 'bulanan',
                     month: filter
                         ? '00'

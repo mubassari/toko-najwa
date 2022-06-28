@@ -15,8 +15,8 @@
         <tr>
             <th style="width: 3%">No</th>
             <th style="width: 10%">Tanggal</th>
-            <th style="width: 9%">Supplier</th>
             <th style="width: 6%">Nomor Nota</th>
+            <th style="width: 9%">Supplier</th>
             <th style="width: 9%">Kategori</th>
             <th style="width: 12%">Nama Barang</th>
             <th style="width: 20%">Detail Barang</th>
@@ -30,8 +30,8 @@
                 <th scope="row">{{ $index = $loop->iteration }}</th>
                 @php
                     echo \Helper::getRowspan($datas, 'tanggal', $data['tanggal'], $index);
-                    echo \Helper::getRowspan($datas, 'supplier', $data['supplier'], $index);
                     echo \Helper::getRowspan($datas, 'no_nota', $data['no_nota'], $index);
+                    echo \Helper::getRowspan($datas, 'supplier', $data['supplier'], $index, 'no_nota');
                 @endphp
                 <td>{{ $data['kategori_barang'] }}</td>
                 <td>{{ $data['nama_barang'] }}</td>
@@ -43,6 +43,12 @@
         @if (count($datas) == 0)
             <tr>
                 <td style="font-style: italic" colspan="9">Tidak Ada Data</td>
+            </tr>
+        @else
+            <tr>
+                <th colspan="7">Total</th>
+                <th>{{ $datas->reduce(function ($total, $item) {return $total + $item['jumlah'];}, 0) }}</th>
+                <th></th>
             </tr>
         @endif
     </tbody>

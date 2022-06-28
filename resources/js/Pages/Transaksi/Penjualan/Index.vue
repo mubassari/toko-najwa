@@ -35,6 +35,7 @@
                         <tr>
                             <th scope="col">NO</th>
                             <th scope="col">TANGGAL PENJUALAN</th>
+                            <th scope="col">KODE PENJUALAN</th>
                             <th scope="col">JUMLAH BARANG</th>
                             <th scope="col">TOTAL PENJUALAN</th>
                             <th scope="col">AKSI</th>
@@ -47,18 +48,9 @@
                         >
                             <td>{{ penjualans.from + key }}</td>
                             <td>{{ getDate(penjualan.tanggal) }}</td>
+                            <td>{{ penjualan.kode }}</td>
                             <td>{{ penjualan.jumlah_barang || 0 }}</td>
-                            <td>
-                                {{
-                                    getRupiah(
-                                        penjualan.detail_penjualan.reduce(
-                                            (total, val) =>
-                                                total + val.jumlah * val.harga,
-                                            0
-                                        )
-                                    )
-                                }}
-                            </td>
+                            <td>{{ getRupiah(penjualan.total_jual) }}</td>
                             <td>
                                 <inertia-link
                                     :href="

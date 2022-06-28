@@ -1,6 +1,6 @@
 <template>
     <nav
-        class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center"
+        class="p-3 bg-white border-bottom d-flex justify-content-between align-items-center user-select-none"
     >
         <div class="d-flex align-items-top">
             <button class="btn btn-primary" @click="$emit('toggleSidebar')">

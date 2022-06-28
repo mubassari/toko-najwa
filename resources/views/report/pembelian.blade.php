@@ -128,7 +128,25 @@
                     <td style="font-style: italic" colspan="13">Tidak Ada Data</td>
                 @endif
             </tr>
+        @else
+            <tr>
+                @if ($type == 'barang')
+                    <th colspan="8">Total</th>
+                @elseif ($type == 'supplier')
+                    <th colspan="10">Total</th>
+                @else
+                    <th colspan="12">Total</th>
+                @endif
+                <th>
+                    {{ \Helper::formatCurrency(
+                        $datas->reduce(function ($total, $item) {
+                            return $total + $item['total_plain'];
+                        }, 0),
+                    ) }}
+                </th>
+            </tr>
         @endif
+
     </tbody>
     </table>
 @endsection

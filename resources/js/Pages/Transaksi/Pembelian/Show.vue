@@ -8,6 +8,10 @@
             <span class="fst-italic">{{ getDateFull(pembelian.tanggal) }}</span>
         </div>
         <div class="col-sm col-12 me-auto">
+            <h4>NOMOR NOTA</h4>
+            <span class="fst-italic">{{ pembelian.no_nota }}</span>
+        </div>
+        <div class="col-sm col-12 me-auto">
             <h4>NAMA SUPPLIER</h4>
             <span class="fst-italic">{{ pembelian.supplier }}</span>
         </div>

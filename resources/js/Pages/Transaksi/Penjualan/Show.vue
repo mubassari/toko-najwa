@@ -7,6 +7,10 @@
             <h4>TANGGAL PENJUALAN</h4>
             <span class="fst-italic">{{ getDateFull(penjualan.tanggal) }}</span>
         </div>
+        <div class="col-sm col-12 me-auto">
+            <h4>KODE PENJUALAN</h4>
+            <span class="fst-italic">{{ penjualan.kode }}</span>
+        </div>
     </div>
     <div class="card border-0 rounded shadow">
         <div class="card-body">

@@ -11,7 +11,7 @@ createInertiaApp({
         if (page.layout === undefined) page.layout = LayoutApp;
         return page;
     },
-    title: (title) => `${title} | Toko Najwa`,
+    title: (title) => (title === "''" ? "Toko Najwa" : `${title} | Toko Najwa`),
     setup({ el, App, props, plugin }) {
         createApp({ render: () => h(App, props) })
             .use(plugin)

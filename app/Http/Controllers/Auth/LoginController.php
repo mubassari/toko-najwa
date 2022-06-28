@@ -11,7 +11,17 @@ class LoginController extends Controller
 {
     public function create()
     {
-        return Inertia::render('Auth/Login');
+        return Inertia::render('Index', [
+            'ringkasan' => [
+                    'Total Barang'        =>  \App\Models\Barang::count() . ' Barang',
+                    'Total Kategori'      =>  \App\Models\Kategori::count() . ' Macam',
+                    'Total Supplier'      =>  \App\Models\Supplier::count() . ' Toko',
+                    'Pembelian Bulan Ini' =>  \App\Models\Pembelian::whereMonth('tanggal', date('m'))
+                                                    ->whereYear('tanggal', date('Y'))->count() . ' Kali',
+                    'Penjualan Bulan Ini' =>  \App\Models\Penjualan::whereMonth('tanggal', date('m'))
+                                                    ->whereYear('tanggal', date('Y'))->count() . ' Kali'
+                ]
+        ]);
     }
 
     public function store(LoginRequest $request)

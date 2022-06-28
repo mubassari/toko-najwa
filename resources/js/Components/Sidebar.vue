@@ -1,5 +1,7 @@
 <template>
-    <nav class="bd-flex flex-column flex-shrink-0 p-3 bg-white border-end">
+    <nav
+        class="bd-flex flex-column flex-shrink-0 p-3 bg-white border-end user-select-none"
+    >
         <div
             class="d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto text-decoration-none"
         >
@@ -49,7 +51,7 @@ export default {
             sidebar: [
                 {
                     name: "Beranda",
-                    url: "/",
+                    url: "/home",
                     icon: "fa-solid fa-house",
                     admin_only: false,
                 },

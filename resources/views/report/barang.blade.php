@@ -40,7 +40,9 @@
         @else
             <tr>
                 <th rowspan="2" style="width: 3%">No</th>
-                <th rowspan="2" style="width: 10%">Kategori</th>
+                @if (!str_starts_with($filter, 'Kategori'))
+                    <th rowspan="2" style="width: 10%">Kategori</th>
+                @endif
                 <th rowspan="2" style="width: 16%">Nama Barang</th>
                 <th rowspan="2" style="width: 8%">Kode Barang</th>
                 <th rowspan="2" style="width: 18%">Detail Barang</th>
@@ -79,7 +81,9 @@
                 <tr>
                     <th scope="row">{{ $index = $loop->iteration }}</th>
                     @php
-                        echo \Helper::getRowspan($datas, 'kategori', $data['kategori'], $index);
+                        if (!str_starts_with($filter, 'Kategori')) {
+                            echo \Helper::getRowspan($datas, 'kategori', $data['kategori'], $index);
+                        }
                         echo \Helper::getRowspan($datas, 'nama', $data['nama'], $index);
                     @endphp
                     <td>{{ $data['kode'] }}</td>

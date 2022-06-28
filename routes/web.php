@@ -22,14 +22,14 @@ use App\Http\Controllers\SupplierController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::prefix('login')->group(function () {
+Route::middleware(['guest'])->group(function () {
     Route::get('', [LoginController::class, 'create'])->name('login');
-    Route::post('', [LoginController::class, 'store']);
+    Route::post('login', [LoginController::class, 'store']);
 });
 
 Route::middleware(['auth'])->group(function () {
     Route::post('logout', [LoginController::class, 'destroy']);
-    Route::get('', fn () => Inertia\Inertia::render('Home'))->name("home");
+    Route::get('home', fn () => Inertia\Inertia::render('Home'))->name("home");
 
     Route::middleware('can:manage_user,\App\Model\User')->group(function () {
         Route::resource('user', UserController::class);

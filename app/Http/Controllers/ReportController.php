@@ -270,14 +270,15 @@ class ReportController extends Controller
                 })->map(function($item) {
                     $kembali = $item->Pengembalian ? $item->Pengembalian->jumlah : 0;
                     return [
-                        'tanggal'  => $this->formatDate($item->Pembelian->tanggal),
+                        'tanggal'  => $this->formatDate($item->Pembelian->tanggal, 'date'),
                         'no_nota'  => $item->Pembelian->no_nota,
                         'supplier' => $item->Pembelian->Supplier->nama,
                         'jumlah'   => $item->jumlah,
                         'kembali'  => $kembali,
                         'satuan'   => $item->DetailBarang->Barang->Satuan->nama,
                         'harga'    => $this->formatCurrency($item->harga),
-                        'total'    => $this->formatCurrency($item->harga * ($item->jumlah - $kembali))
+                        'total'    => $this->formatCurrency($item->harga * ($item->jumlah - $kembali)),
+                        'total_plain' => $item->harga * ($item->jumlah - $kembali)
                     ];
                 });
                 break;
@@ -288,7 +289,7 @@ class ReportController extends Controller
                 })->map(function($item) {
                     $kembali = $item->Pengembalian ? $item->Pengembalian->jumlah : 0;
                     return [
-                        'tanggal'     => $this->formatDate($item->Pembelian->tanggal),
+                        'tanggal'     => $this->formatDate($item->Pembelian->tanggal, 'date'),
                         'no_nota'     => $item->Pembelian->no_nota,
                         'nama_barang' => $item->DetailBarang->Barang->nama,
                         'kategori'    => $item->DetailBarang->Barang->Kategori->nama,
@@ -297,7 +298,8 @@ class ReportController extends Controller
                         'kembali'     => $kembali,
                         'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
                         'harga'       => $this->formatCurrency($item->harga),
-                        'total'       => $this->formatCurrency($item->harga * ($item->jumlah - $kembali))
+                        'total'       => $this->formatCurrency($item->harga * ($item->jumlah - $kembali)),
+                        'total_plain' => $item->harga * ($item->jumlah - $kembali)
                     ];
                 });
                 break;
@@ -315,7 +317,7 @@ class ReportController extends Controller
                     $id_detail = $item->DetailBarang->Barang->Kategori->kode.'/'.$item->DetailBarang->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
                     $kembali = $item->Pengembalian ? $item->Pengembalian->jumlah : 0;
                     return [
-                        'tanggal'     => $this->formatDate($item->Pembelian->tanggal),
+                        'tanggal'     => $this->formatDate($item->Pembelian->tanggal, 'date'),
                         'no_nota'     => $item->Pembelian->no_nota,
                         'kode_barang' => $id_detail,
                         'nama_barang' => $item->DetailBarang->Barang->nama,
@@ -326,7 +328,8 @@ class ReportController extends Controller
                         'kembali'     => $kembali,
                         'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
                         'harga'       => $this->formatCurrency($item->harga),
-                        'total'       => $this->formatCurrency($item->harga * ($item->jumlah - $kembali))
+                        'total'       => $this->formatCurrency($item->harga * ($item->jumlah - $kembali)),
+                        'total_plain' => $item->harga * ($item->jumlah - $kembali)
                     ];
                 });
                 break;
@@ -410,20 +413,22 @@ class ReportController extends Controller
                     $id_penjualan = \App\Models\Penjualan::whereDate('tanggal', '=', date('Y-m-d', strtotime($item->Penjualan->tanggal)))->get()->pluck('id')->search($item->Penjualan->id);
                     $kode = str_replace('-', '/', explode(' ', $item->Penjualan->tanggal)[0]).'/'.\Str::padleft($id_penjualan + 1, 3, 0);
                     return [
-                        'tanggal'  => $this->formatDate($item->Penjualan->tanggal),
-                        'kode'     => $kode,
-                        'jumlah'   => $item->jumlah,
-                        'satuan'   => $item->DetailBarang->Barang->Satuan->nama,
-                        'harga'    => $this->formatCurrency($item->DetailBarang->harga),
-                        'total'    => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah)
+                        'tanggal'     => $this->formatDate($item->Penjualan->tanggal),
+                        'kode'        => $kode,
+                        'jumlah'      => $item->jumlah,
+                        'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
+                        'harga'       => $this->formatCurrency($item->DetailBarang->harga),
+                        'total'       => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah),
+                        'total_plain' => $item->DetailBarang->harga * $item->jumlah
                     ];
                 });
                 break;
 
             case 'harian':
                 $datas = DetailPenjualan::all()->sortBy([
-                    fn ($a, $b) => $this->formatDate($a->Penjualan->tanggal, 'time') <=> $this->formatDate($b->Penjualan->tanggal, 'time'),
-                    fn ($a, $b) => $a->DetailBarang->Barang->Nama <=> $b->DetailBarang->Barang->Nama,
+                    fn ($a, $b) => $a->Penjualan->tanggal <=> $b->Penjualan->tanggal,
+                    fn ($a, $b) => $a->DetailBarang->Barang->Kategori->nama <=> $b->DetailBarang->Barang->Kategori->nama,
+                    fn ($a, $b) => $a->DetailBarang->Barang->nama <=> $b->DetailBarang->Barang->nama,
                     fn ($a, $b) => $a->DetailBarang->Nama <=> $b->DetailBarang->Nama,
                 ])->filter(function ($data) use ($request) {
                     return preg_split('/[-| ]/', $data->Penjualan->tanggal)[2] == $request->day;
@@ -431,7 +436,7 @@ class ReportController extends Controller
                     $id_penjualan = \App\Models\Penjualan::whereDate('tanggal', '=', date('Y-m-d', strtotime($item->Penjualan->tanggal)))->get()->pluck('id')->search($item->Penjualan->id);
                     $kode = str_replace('-', '/', explode(' ', $item->Penjualan->tanggal)[0]).'/'.\Str::padleft($id_penjualan + 1, 3, 0);
                     return [
-                        'waktu'     => $this->formatDate($item->Penjualan->tanggal, 'time'),
+                        'waktu'       => $this->formatDate($item->Penjualan->tanggal, 'time'),
                         'kode'        => $kode,
                         'nama_barang' => $item->DetailBarang->Barang->nama,
                         'kategori'    => $item->DetailBarang->Barang->Kategori->nama,
@@ -439,15 +444,17 @@ class ReportController extends Controller
                         'jumlah'      => $item->jumlah,
                         'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
                         'harga'       => $this->formatCurrency($item->DetailBarang->harga),
-                        'total'       => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah)
+                        'total'       => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah),
+                        'total_plain' => $item->DetailBarang->harga * $item->jumlah
                     ];
                 });
                 break;
 
             default:
                 $datas = DetailPenjualan::all()->sortBy([
-                    fn ($a, $b) => $this->formatDate($a->Penjualan->tanggal, 'date') <=> $this->formatDate($b->Penjualan->tanggal, 'date'),
-                    fn ($a, $b) => $a->DetailBarang->Barang->Nama <=> $b->DetailBarang->Barang->Nama,
+                    fn ($a, $b) => $a->Penjualan->tanggal <=> $b->Penjualan->tanggal,
+                    fn ($a, $b) => $a->DetailBarang->Barang->Kategori->nama <=> $b->DetailBarang->Barang->Kategori->nama,
+                    fn ($a, $b) => $a->DetailBarang->Barang->nama <=> $b->DetailBarang->Barang->nama,
                     fn ($a, $b) => $a->DetailBarang->Nama <=> $b->DetailBarang->Nama,
                 ])->filter(function ($data) use ($request) {
                     return explode('-', $data->Penjualan->tanggal)[1] == $request->month;
@@ -463,7 +470,8 @@ class ReportController extends Controller
                         'jumlah'      => $item->jumlah,
                         'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
                         'harga'       => $this->formatCurrency($item->DetailBarang->harga),
-                        'total'       => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah)
+                        'total'       => $this->formatCurrency($item->DetailBarang->harga * $item->jumlah),
+                        'total_plain' => $item->DetailBarang->harga * $item->jumlah
                     ];
                 });
                 break;
