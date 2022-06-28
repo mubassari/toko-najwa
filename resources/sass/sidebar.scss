@@ -19,7 +19,6 @@ $tn-transition-out: 0.4s ease-out;
 
         > nav {
             width: 0;
-            padding: $spacer 0 !important;
             transition: width $tn-transition-in, padding 0.1s ease-in;
         }
     }

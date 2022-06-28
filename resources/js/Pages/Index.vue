@@ -105,10 +105,13 @@
         </div>
     </section>
     <transition name="fade" mode="out-in">
-        <div class="position-relative text-white" v-if="!scrolled">
+        <div
+            class="sticky-bottom text-white d-flex justify-content-center"
+            v-if="!scrolled"
+        >
             <div
                 role="button"
-                class="position-absolute bottom-0 start-50 translate-middle-x mb-3"
+                class="mb-3"
                 @click="
                     $refs['ringkasan'].scrollIntoView({ behavior: 'smooth' })
                 "
@@ -119,6 +122,7 @@
     </transition>
     <section
         class="container p-5 text-center justify-content-center"
+        style="scroll-margin-top: 100px"
         ref="ringkasan"
     >
         <div class="mb-5">
@@ -126,7 +130,7 @@
         </div>
         <div class="row justify-content-center">
             <div
-                class="col-lg-4 col-6 mb-4"
+                class="col-lg-4 col-md-6 col-12 mb-4"
                 v-for="(data, key) in ringkasan"
                 :key="key"
             >
@@ -158,7 +162,7 @@ export default {
     props: { ringkasan: Object },
     setup() {
         let scrolled = ref(false);
-        let handleScroll = (event) => (scrolled.value = window.scrollY > 100);
+        let handleScroll = (event) => (scrolled.value = window.scrollY > 250);
         onBeforeMount(() => window.addEventListener("scroll", handleScroll));
         onBeforeUnmount(() =>
             window.removeEventListener("scroll", handleScroll)

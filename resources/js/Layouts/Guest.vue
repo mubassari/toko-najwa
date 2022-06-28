@@ -1,11 +1,13 @@
 <template>
     <toast :toast="$page.props.toast" :popstate="$page.props.popstate" />
     <nav class="p-3 bg-white border-bottom sticky-top shadow">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="ms-3 text-uppercase fs-4">
-                <span class="text-decoration-none text-body user-select-none">
-                    SISTEM INVENTORY BARANG
-                </span>
+        <div
+            class="d-flex justify-content-center align-items-center user-select-none"
+        >
+            <div
+                class="ms-3 text-uppercase text-decoration-none text-center fs-4"
+            >
+                SISTEM INVENTORY BARANG
             </div>
         </div>
     </nav>

@@ -1,12 +1,20 @@
 <template>
     <inertia-head title="Laporan"></inertia-head>
     <laporan-barang
+        :hide="hideContent.barang"
+        @hideToggle="hideToggle"
         :kategori="kategori"
         @get-kategori="getDataKategori"
         v-bind="$attrs"
     ></laporan-barang>
-    <laporan-supplier v-bind="$attrs"></laporan-supplier>
+    <laporan-supplier
+        :hide="hideContent.supplier"
+        @hideToggle="hideToggle"
+        v-bind="$attrs"
+    ></laporan-supplier>
     <laporan-pembelian
+        :hide="hideContent.pembelian"
+        @hideToggle="hideToggle"
         :bulanan="bulanan"
         :supplier="supplier"
         @get-supplier="getDataSupplier"
@@ -17,10 +25,14 @@
         v-bind="$attrs"
     ></laporan-pembelian>
     <laporan-pengembalian
+        :hide="hideContent.pengembalian"
+        @hideToggle="hideToggle"
         :bulanan="bulanan"
         v-bind="$attrs"
     ></laporan-pengembalian>
     <laporan-penjualan
+        :hide="hideContent.penjualan"
+        @hideToggle="hideToggle"
         :harian="harian"
         :bulanan="bulanan"
         :barang="barang"
@@ -50,6 +62,16 @@ export default {
         LaporanSupplier,
     },
     setup() {
+        let hideContent = reactive({
+            barang: false,
+            pembelian: false,
+            pengembalian: false,
+            penjualan: false,
+            supplier: false,
+        });
+
+        let hideToggle = (value) => (hideContent[value] = !hideContent[value]);
+
         let defaultValue = {
             options: [],
             selected: [],
@@ -137,6 +159,8 @@ export default {
         }, 500);
 
         return {
+            hideContent,
+            hideToggle,
             harian,
             barang,
             bulanan,

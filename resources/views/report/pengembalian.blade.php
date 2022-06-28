@@ -44,12 +44,6 @@
             <tr>
                 <td style="font-style: italic" colspan="9">Tidak Ada Data</td>
             </tr>
-        @else
-            <tr>
-                <th colspan="7">Total</th>
-                <th>{{ $datas->reduce(function ($total, $item) {return $total + $item['jumlah'];}, 0) }}</th>
-                <th></th>
-            </tr>
         @endif
     </tbody>
     </table>

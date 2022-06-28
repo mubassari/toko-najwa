@@ -44,7 +44,7 @@ class UsersTableSeeder extends Seeder
                 'no_telp' => 8123,
                 'password' => '$2y$10$43CESdQmpz17ts633MrwdetNmIA/8YhvoMAlXDfolJukbN9MwfzBG',
                 'role' => 'admin',
-                'remember_token' => 'GdaU5SNuc77Z81r9ACKTBi8BGjzgsy9Ocd5890wXu2ulUyk4uAwJ2RKjrOgV',
+                'remember_token' => 'm2KsEvV96BsPTahXyULIYj2NQbu2YwUNKhp8ZEDFblAXIvoJkTcK9rDAc17J',
             ),
         ));
         

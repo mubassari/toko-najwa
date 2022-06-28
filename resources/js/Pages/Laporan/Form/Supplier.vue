@@ -1,16 +1,34 @@
 <template>
-    <div class="card mb-4 shadow">
-        <div class="card-header">
+    <div class="card mb-4 shadow user-select-none">
+        <div
+            role="button"
+            class="card-header d-flex align-items-center justify-content-between"
+            :class="{ 'border-bottom-0': hide }"
+            @click="
+                $emit('hideToggle', 'supplier');
+                $refs['icon'].style.transform = hide
+                    ? 'rotate(180deg)'
+                    : 'rotate(0deg)';
+            "
+        >
+            <div></div>
             <h5 class="card-title text-center">Cetak Laporan Supplier</h5>
+            <i
+                class="flex-end fa-solid fa-angle-down"
+                ref="icon"
+                style="transition: transform 0.5s ease-out"
+            ></i>
         </div>
-        <div class="card-body">
-            <form-report
-                v-bind="$attrs"
-                :title="'Laporan Supplier'"
-                :url="'/laporan/supplier'"
-                :data="{ filter: 'Semua', type: null }"
-            ></form-report>
-        </div>
+        <transition name="fade" mode="out-in">
+            <div class="card-body" v-if="!hide">
+                <form-report
+                    v-bind="$attrs"
+                    :title="'Laporan Supplier'"
+                    :url="'/laporan/supplier'"
+                    :data="{ filter: 'Semua', type: null }"
+                ></form-report>
+            </div>
+        </transition>
     </div>
 </template>
 <script>
@@ -18,5 +36,7 @@ import Form from "@Components/Form/Report.vue";
 
 export default {
     components: { FormReport: Form },
+    props: { hide: Boolean },
+    emits: ["hideToggle"],
 };
 </script>

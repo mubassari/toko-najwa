@@ -14,61 +14,61 @@ class KategoriTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('kategori')->delete();
-
+        
         \DB::table('kategori')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'kode' => 'SRG',
                 'nama' => 'Pakaian Seragam',
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'kode' => 'MSL',
                 'nama' => 'Pakaian Muslim',
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'kode' => 'KMJ',
                 'nama' => 'Kemeja',
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'kode' => 'KWS',
                 'nama' => 'Kaos',
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'kode' => 'SHO',
                 'nama' => 'Peralatan Sholat',
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'kode' => 'BYI',
                 'nama' => 'Baju Bayi',
             ),
-            6 =>
+            6 => 
             array (
                 'id' => 7,
                 'kode' => 'ANK',
                 'nama' => 'Pakaian Anak',
             ),
-            7 =>
+            7 => 
             array (
                 'id' => 8,
                 'kode' => 'DWS',
                 'nama' => 'Pakaian Dewasa',
             ),
         ));
-
-
+        
+        
     }
 }

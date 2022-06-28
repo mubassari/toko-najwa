@@ -14,12 +14,12 @@ class BarangTableSeeder extends Seeder
      */
     public function run()
     {
-
+        
 
         \DB::table('barang')->delete();
-
+        
         \DB::table('barang')->insert(array (
-            0 =>
+            0 => 
             array (
                 'id' => 1,
                 'kode' => 'BPP',
@@ -27,7 +27,7 @@ class BarangTableSeeder extends Seeder
                 'id_kategori' => 1,
                 'id_satuan' => 3,
             ),
-            1 =>
+            1 => 
             array (
                 'id' => 2,
                 'kode' => 'BPA',
@@ -35,7 +35,7 @@ class BarangTableSeeder extends Seeder
                 'id_kategori' => 1,
                 'id_satuan' => 3,
             ),
-            2 =>
+            2 => 
             array (
                 'id' => 3,
                 'kode' => 'GDR',
@@ -43,7 +43,7 @@ class BarangTableSeeder extends Seeder
                 'id_kategori' => 2,
                 'id_satuan' => 3,
             ),
-            3 =>
+            3 => 
             array (
                 'id' => 4,
                 'kode' => 'DKT',
@@ -51,7 +51,7 @@ class BarangTableSeeder extends Seeder
                 'id_kategori' => 8,
                 'id_satuan' => 3,
             ),
-            4 =>
+            4 => 
             array (
                 'id' => 5,
                 'kode' => 'CMS',
@@ -59,7 +59,7 @@ class BarangTableSeeder extends Seeder
                 'id_kategori' => 1,
                 'id_satuan' => 3,
             ),
-            5 =>
+            5 => 
             array (
                 'id' => 6,
                 'kode' => 'CPR',
@@ -68,7 +68,7 @@ class BarangTableSeeder extends Seeder
                 'id_satuan' => 3,
             ),
         ));
-
-
+        
+        
     }
 }
