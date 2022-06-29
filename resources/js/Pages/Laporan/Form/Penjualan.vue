@@ -7,8 +7,8 @@
             @click="
                 $emit('hideToggle', 'penjualan');
                 $refs['icon'].style.transform = hide
-                    ? 'rotate(180deg)'
-                    : 'rotate(0deg)';
+                    ? 'rotateZ(0deg)'
+                    : 'rotateZ(180deg)';
             "
         >
             <div></div>
@@ -16,7 +16,7 @@
                 Cetak Laporan Penjualan Barang
             </h5>
             <i
-                class="flex-end fa-solid fa-angle-down"
+                class="flex-end fa-solid fa-angle-up"
                 ref="icon"
                 style="transition: transform 0.5s ease-out"
             ></i>
