@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('detail_barang', function (Blueprint $table) {
             $table->id();
             $table->string('nama', 50);
+            $table->integer('kode')->unsigned()->nullable();
             $table->bigInteger('id_barang')->unsigned()->nullable();
             $table->bigInteger('id_supplier')->unsigned()->nullable();
             $table->integer('stok')->unsigned()->nullable();

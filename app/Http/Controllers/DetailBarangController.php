@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\DetailBarang;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Http\Requests\DetailBarangRequest;
 use Inertia\Inertia;
@@ -12,7 +13,8 @@ class DetailBarangController extends Controller
 {
     public function getData(Request $request)
     {
-        $detailBarang = DetailBarang::select('id', 'nama', 'harga', 'stok')
+        $detailBarang = DetailBarang::select('id', 'kode', 'nama', 'harga', 'stok')
+        ->orderByRaw('LENGTH(nama), nama')
         ->when($request->input('value'), function ($query, $role) {
             $query->where('nama', 'like', "%$role%");
         })
@@ -36,9 +38,10 @@ class DetailBarangController extends Controller
     {
         return Inertia::render('Master/Barang/Detail/Create',[
             'barang' => [
-                'id'     => $barang->id,
-                'nama'   => $barang->nama,
-                'satuan' => $barang->Satuan->nama
+                'id'            => $barang->id,
+                'nama'          => $barang->nama,
+                'satuan'        => $barang->Satuan->nama,
+                'kode_terakhir' => \Str::padleft($barang->KodeDetailBarang->kode_terakhir + 1, 3, 0),
             ]
         ]);
     }
@@ -52,22 +55,38 @@ class DetailBarangController extends Controller
     public function store(DetailBarangRequest $request)
     {
         $request->validated();
-        $detailBarang = DetailBarang::create([
-            'nama'        => $request->nama,
-            'stok'        => $request->stok,
-            'stok_min'    => $request->stok_min,
-            'harga'       => $request->harga,
-            'restok'      => $request->restok,
-            'id_supplier' => $request->supplier['id'],
-            'id_barang'   => $request->id_barang,
-        ]);
+        try {
+            DB::beginTransaction();
+            $kode_terakhir = Barang::find($request->id_barang)->KodeDetailBarang->kode_terakhir + 1;
+            $detailBarang = DetailBarang::create([
+                'nama'        => $request->nama,
+                'kode'        => $kode_terakhir,
+                'stok'        => $request->stok,
+                'stok_min'    => $request->stok_min,
+                'harga'       => $request->harga,
+                'restok'      => $request->restok,
+                'id_supplier' => $request->supplier['id'],
+                'id_barang'   => $request->id_barang,
+            ]);
 
-        if($detailBarang) {
+            $kode_detail = \App\Models\KodeDetailBarang::find($request->id_barang)->update([
+                'kode_terakhir' => $kode_terakhir
+            ]);
+
+            DB::commit();
+
             return redirect()->route('barang.show', ['barang' => $request->id_barang])
                 ->with([
                     'status'  => 'success',
                     'message' => 'Data Detail Berhasil Disimpan!'
             ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return rredirect()->route('barang.show', ['barang' => $request->id_barang])
+                ->with([
+                    'status'  => 'danger',
+                    'message' => 'Data Gagal Disimpan!'
+                ]);
         }
     }
 

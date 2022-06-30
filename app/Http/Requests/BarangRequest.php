@@ -24,7 +24,7 @@ class BarangRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'         => 'required|string|max:3|unique:barang,kode,'.$this->barang->id,
+            'kode'         => 'required|string|size:3|unique:barang,kode,'.$this->barang->id,
             'nama'         => 'required|string|max:50',
             'kategori.id'  => 'required|exists:kategori,id',
             'satuan.id'    => 'required|exists:satuan,id',

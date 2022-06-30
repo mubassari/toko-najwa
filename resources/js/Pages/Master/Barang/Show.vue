@@ -55,6 +55,7 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
+                            <th scope="col">KODE</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">JUMLAH STOK</th>
                             <th scope="col">MINIMAL STOK</th>
@@ -71,6 +72,7 @@
                             :key="detail.id"
                         >
                             <td>{{ key + 1 }}</td>
+                            <td>{{ detail.kode }}</td>
                             <td>{{ detail.nama }}</td>
                             <td>{{ detail.stok }}</td>
                             <td>{{ detail.stok_min }}</td>
@@ -124,6 +126,7 @@
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
+                            <th scope="col">KODE</th>
                             <th scope="col">NAMA</th>
                             <th scope="col">JUMLAH STOK</th>
                             <th scope="col">MINIMAL STOK</th>
@@ -140,6 +143,7 @@
                             :key="detail.id"
                         >
                             <td>{{ key + 1 }}</td>
+                            <td>{{ detail.kode }}</td>
                             <td>{{ detail.nama }}</td>
                             <td>{{ detail.stok }}</td>
                             <td>{{ detail.stok_min }}</td>

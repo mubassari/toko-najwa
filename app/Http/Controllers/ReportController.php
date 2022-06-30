@@ -157,8 +157,7 @@ class ReportController extends Controller
                                 ? $detail->stok <= $detail->stok_min
                                 : !$detail->restok;
                 })->map(function ($item) {
-                    $detail_position = $item->Barang->DetailBarang->pluck('id')->search($item->id);
-                    $id_detail = $item->Barang->Kategori->kode.'/'.$item->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
+                    $id_detail = $item->Barang->Kategori->kode.'/'.$item->Barang->kode.'/'.\Str::padleft($item->kode, 3, 0);
                     $beli_terakhir = $item->DetailPembelian->sortByDesc('id', SORT_NATURAL)->first();
                     $jual_terakhir = $item->DetailPenjualan->sortByDesc('id', SORT_NATURAL)->first();
                     return [
@@ -187,8 +186,7 @@ class ReportController extends Controller
                 ])->filter(function ($detail) use ($request) {
                     return $request->kategori > 0 ? $detail->Barang->Kategori->id == $request->kategori : true;
                 })->map(function ($item) {
-                    $detail_position = $item->Barang->DetailBarang->pluck('id')->search($item->id);
-                    $id_detail = $item->Barang->Kategori->kode.'/'.$item->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
+                    $id_detail = $item->Barang->Kategori->kode.'/'.$item->Barang->kode.'/'.\Str::padleft($item->kode, 3, 0);
                     $dateS = Carbon::now()->startOfMonth()->subMonth(3);
                     $dateE = Carbon::now();
                     return [
@@ -313,8 +311,7 @@ class ReportController extends Controller
                 ])->filter(function ($data) use ($request) {
                     return explode('-', $data->Pembelian->tanggal)[1] == $request->month;
                 })->map(function($item) {
-                    $detail_position = $item->DetailBarang->Barang->DetailBarang->pluck('id')->search($item->DetailBarang->id);
-                    $id_detail = $item->DetailBarang->Barang->Kategori->kode.'/'.$item->DetailBarang->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
+                    $id_detail = $item->DetailBarang->Barang->Kategori->kode.'/'.$item->DetailBarang->Barang->kode.'/'.\Str::padleft($item->DetailBarang->kode, 3, 0);
                     $kembali = $item->Pengembalian ? $item->Pengembalian->jumlah : 0;
                     return [
                         'tanggal'     => $this->formatDate($item->Pembelian->tanggal, 'date'),
@@ -338,8 +335,7 @@ class ReportController extends Controller
         $filter = $request->filter;
         if ($request->type == 'barang'){
             $detail = DetailBarang::find($filter['Kode Barang']);
-            $detail_position = $detail->Barang->DetailBarang->pluck('id')->search($filter['Kode Barang']);
-            $id_detail = $detail->Barang->Kategori->kode.'/'.$detail->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
+            $id_detail = $detail->Barang->Kategori->kode.'/'.$detail->Barang->kode.'/'.\Str::padleft($detail->kode, 3, 0);
             \Arr::set($filter, 'Kode Barang', $id_detail);
         }
 
@@ -480,8 +476,7 @@ class ReportController extends Controller
         $filter = $request->filter;
         if ($request->type == 'barang'){
             $detail = DetailBarang::find($filter['Kode Barang']);
-            $detail_position = $detail->Barang->DetailBarang->pluck('id')->search($filter['Kode Barang']);
-            $id_detail = $detail->Barang->Kategori->kode.'/'.$detail->Barang->kode.'/'.\Str::padleft($detail_position + 1, 3, 0);
+            $id_detail = $detail->Barang->Kategori->kode.'/'.$detail->Barang->kode.'/'.\Str::padleft($detail->kode, 3, 0);
             \Arr::set($filter, 'Kode Barang', $id_detail);
         }
 

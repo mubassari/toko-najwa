@@ -15,6 +15,7 @@ class DetailBarang extends Model
     public $timestamps = false;
     protected $fillable = [
         'nama',
+        'kode',
         'id_barang',
         'id_supplier',
         'stok',

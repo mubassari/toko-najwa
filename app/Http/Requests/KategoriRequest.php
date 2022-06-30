@@ -24,7 +24,7 @@ class KategoriRequest extends FormRequest
     public function rules()
     {
         return [
-            'kode'   => 'required|string|max:3|unique:kategori,kode,'.$this->kategori->id,
+            'kode'   => 'required|string|size:3|unique:kategori,kode,'.$this->kategori->id,
             'nama'   => 'required|string|max:20',
         ];
     }

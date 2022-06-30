@@ -1,6 +1,9 @@
 <template>
     <form @submit.prevent="$emit('submit')">
         <div class="mb-3">
+            Kode Detail: <b>{{ barang.kode_terakhir }}</b>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Nama Detail Barang</label>
             <input
                 type="text"

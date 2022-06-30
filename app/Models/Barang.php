@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -29,6 +30,17 @@ class Barang extends Model
     {
         return $this->hasMany(DetailBarang::class, 'id_barang', 'id');
     }
+
+    /**
+     * Get the KodeDetailBarang that owns the Pengembalian
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function KodeDetailBarang(): BelongsTo
+    {
+        return $this->belongsTo(KodeDetailBarang::class, 'id', 'id_barang');
+    }
+
 
     /**
      * Get the Kategori associated with the Barang

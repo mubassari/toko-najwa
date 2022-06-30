@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use App\Http\Requests\BarangRequest;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class BarangController extends Controller
@@ -85,18 +86,32 @@ class BarangController extends Controller
     public function store(BarangRequest $request)
     {
         $request->validated();
-        $barang = Barang::create([
-            'kode'     => $request->kode,
-            'nama'     => $request->nama,
-            'id_kategori' => $request->kategori['id'],
-            'id_satuan'   => $request->satuan['id'],
-        ]);
+        try {
+            DB::beginTransaction();
+            $barang = Barang::create([
+                'kode'     => $request->kode,
+                'nama'     => $request->nama,
+                'id_kategori' => $request->kategori['id'],
+                'id_satuan'   => $request->satuan['id'],
+            ]);
 
-        if($barang) {
+            $kode_detail = \App\Models\KodeDetailBarang::create([
+                'id_barang'     => $barang->id,
+                'kode_terakhir' => 0
+            ]);
+
+            DB::commit();
+
             return redirect()->route('barang.show', ['barang' => $barang->id])
-                ->with([
-                    'status'=>'success',
-                    'message'=>'Data Berhasil Disimpan!'
+                    ->with([
+                        'status'=>'success',
+                        'message'=>'Data Berhasil Disimpan!'
+            ]);
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->route('barang.create')->with([
+                'status'  => 'danger',
+                'message' => 'Data Gagal Disimpan!'
             ]);
         }
     }
@@ -114,6 +129,7 @@ class BarangController extends Controller
             foreach ($barang->Detailbarang->sortBy('nama', SORT_NATURAL) as $detail) {
                 array_push($detail_barang, [
                     'id'       => $detail->id,
+                    'kode'     => \Str::padleft($detail->kode, 3, 0),
                     'nama'     => $detail->nama,
                     'stok'     => $detail->stok,
                     'stok_min' => $detail->stok_min,
@@ -191,6 +207,7 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
+
         $barang->delete();
 
         if($barang) {
