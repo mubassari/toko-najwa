@@ -52,26 +52,25 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('penjualan', PenjualanController::class)->except(['edit', 'update', 'destroy']);
     });
 
-});
-
-Route::prefix('laporan')->name('laporan.')->group(function () {
-    Route::get('', [ReportController::class, 'index'])->name("index");
-    Route::prefix('test')->name('test.')->group(function () {
-        Route::post('', [ReportController::class, 'test'])->name('pdf');
-    });
-    Route::prefix('barang')->name('barang.')->group(function () {
-        Route::post('', [ReportController::class, 'barang'])->name('pdf');
-    });
-    Route::prefix('supplier')->name('supplier.')->group(function () {
-        Route::post('', [ReportController::class, 'supplier'])->name('pdf');
-    });
-    Route::prefix('pembelian')->name('pembelian.')->group(function () {
-        Route::post('', [ReportController::class, 'pembelian'])->name('pdf');
-    });
-    Route::prefix('pengembalian')->name('pengembalian.')->group(function () {
-        Route::post('', [ReportController::class, 'pengembalian'])->name('pdf');
-    });
-    Route::prefix('penjualan')->name('penjualan.')->group(function () {
-        Route::post('', [ReportController::class, 'penjualan'])->name('pdf');
+    Route::prefix('laporan')->name('laporan.')->group(function () {
+        Route::get('', [ReportController::class, 'index'])->name("index");
+        Route::prefix('test')->name('test.')->group(function () {
+            Route::post('', [ReportController::class, 'test'])->name('pdf');
+        });
+        Route::prefix('barang')->name('barang.')->group(function () {
+            Route::post('', [ReportController::class, 'barang'])->name('pdf');
+        });
+        Route::prefix('supplier')->name('supplier.')->group(function () {
+            Route::post('', [ReportController::class, 'supplier'])->name('pdf');
+        });
+        Route::prefix('pembelian')->name('pembelian.')->group(function () {
+            Route::post('', [ReportController::class, 'pembelian'])->name('pdf');
+        });
+        Route::prefix('pengembalian')->name('pengembalian.')->group(function () {
+            Route::post('', [ReportController::class, 'pengembalian'])->name('pdf');
+        });
+        Route::prefix('penjualan')->name('penjualan.')->group(function () {
+            Route::post('', [ReportController::class, 'penjualan'])->name('pdf');
+        });
     });
 });

@@ -11,7 +11,6 @@ $time = \Carbon\Carbon::now();
     <meta name="X-XSRF-TOKEN" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <style>
-        /* body{margin-top: 250px} */
         p {
             margin: 0;
             line-height: normal;
@@ -21,14 +20,6 @@ $time = \Carbon\Carbon::now();
             margin: 2px;
             border: thin solid black !important;
             opacity: 1;
-        }
-
-        header {
-            /* position: fixed;
-            top: 0cm;
-            right: 0cm;
-            left: 0cm;
-            background-color: white; */
         }
 
         table {
@@ -99,40 +90,8 @@ $time = \Carbon\Carbon::now();
             width: 25%;
         }
 
-        .col-4 {
-            width: 33.33%;
-        }
-
-        .col-5 {
-            width: 41.66%;
-        }
-
         .col-6 {
             width: 50%;
-        }
-
-        .col-7 {
-            width: 58.33%;
-        }
-
-        .col-8 {
-            width: 66.66%;
-        }
-
-        .col-9 {
-            width: 75%;
-        }
-
-        .col-10 {
-            width: 83.33%;
-        }
-
-        .col-11 {
-            width: 91.66%;
-        }
-
-        .col-12 {
-            width: 100%;
         }
 
         .halaman:after {
@@ -214,27 +173,27 @@ $time = \Carbon\Carbon::now();
     <footer style="margin-top: 1rem; page-break-inside: avoid">
         <table>
             <tr>
-                <td style="width: 25%"></td>
-                <td style="width: 50%"></td>
-                <td style="width: 25%">
+                <td class="col-3"></td>
+                <td class="col-6"></td>
+                <td class="col-3">
                     <span style="margin-right: 8rem">Muara Jawa,</span>
                     {{ $time->isoFormat('Y') }}
                 </td>
             </tr>
             <tr>
-                <td style="width: 25%"></td>
-                <td style="width: 50%"></td>
-                <td style="width: 25%">Pemilik Toko</td>
+                <td class="col-3"></td>
+                <td class="col-6"></td>
+                <td class="col-3">Pemilik Toko</td>
             </tr>
             <tr>
-                <td style="width: 25%"></td>
-                <td style="width: 50%"></td>
-                <td style="width: 25%; height:5rem"></td>
+                <td class="col-3"></td>
+                <td class="col-6"></td>
+                <td class="col-3" style="height:5rem"></td>
             </tr>
             <tr>
-                <td style="width: 25%"></td>
-                <td style="width: 50%"></td>
-                <td style="width: 25%">Mubahri</td>
+                <td class="col-3"></td>
+                <td class="col-6"></td>
+                <td class="col-3">Mubahri</td>
             </tr>
         </table>
     </footer>

@@ -30,8 +30,8 @@
                             ]"
                             :href="link.url"
                         >
-                            <i class="me-2" :class="link.icon"></i>
-                            {{ link.name }}
+                            <span><i class="me-2" :class="link.icon"></i></span>
+                            <span>{{ link.name }}</span>
                         </inertia-link>
                     </li>
                 </template>

@@ -1,20 +1,12 @@
 <template>
     <inertia-head title="Laporan"></inertia-head>
     <laporan-barang
-        :hide="hideContent.barang"
-        @hideToggle="hideToggle"
         :kategori="kategori"
         @get-kategori="getDataKategori"
         v-bind="$attrs"
     ></laporan-barang>
-    <laporan-supplier
-        :hide="hideContent.supplier"
-        @hideToggle="hideToggle"
-        v-bind="$attrs"
-    ></laporan-supplier>
+    <laporan-supplier v-bind="$attrs"></laporan-supplier>
     <laporan-pembelian
-        :hide="hideContent.pembelian"
-        @hideToggle="hideToggle"
         :bulanan="bulanan"
         :supplier="supplier"
         @get-supplier="getDataSupplier"
@@ -25,14 +17,10 @@
         v-bind="$attrs"
     ></laporan-pembelian>
     <laporan-pengembalian
-        :hide="hideContent.pengembalian"
-        @hideToggle="hideToggle"
         :bulanan="bulanan"
         v-bind="$attrs"
     ></laporan-pengembalian>
     <laporan-penjualan
-        :hide="hideContent.penjualan"
-        @hideToggle="hideToggle"
         :harian="harian"
         :bulanan="bulanan"
         :barang="barang"
@@ -62,15 +50,20 @@ export default {
         LaporanSupplier,
     },
     setup() {
-        let hideContent = reactive({
-            barang: false,
-            pembelian: false,
-            pengembalian: false,
-            penjualan: false,
-            supplier: false,
-        });
-
-        let hideToggle = (value) => (hideContent[value] = !hideContent[value]);
+        let fetchData = debounce((data, url, content) => {
+            data.loading = true;
+            axios
+                .post(url, content)
+                .then((response) => {
+                    data.options = response.data;
+                })
+                .catch((errors) => {
+                    console.log("error", errors);
+                })
+                .finally(() => {
+                    data.loading = false;
+                });
+        }, 500);
 
         let defaultValue = {
             options: [],
@@ -89,78 +82,28 @@ export default {
 
         let kategori = reactive({ ...defaultValue });
 
-        let getDataKategori = debounce((value) => {
-            kategori.loading = true;
-            axios
-                .post("/api/kategori", { value })
-                .then((response) => {
-                    kategori.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    kategori.loading = false;
-                });
-        }, 500);
+        let getDataKategori = (value) =>
+            fetchData(kategori, "/api/kategori", { value });
 
         let supplier = reactive({ ...defaultValue });
 
-        let getDataSupplier = debounce((value) => {
-            supplier.loading = true;
-            axios
-                .post("/api/supplier", { value })
-                .then((response) => {
-                    supplier.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    supplier.loading = false;
-                });
-        }, 500);
+        let getDataSupplier = (value) =>
+            fetchData(supplier, "/api/supplier", { value });
 
         let barang = reactive({ ...defaultValue });
 
-        let getDataBarang = debounce((value) => {
-            barang.loading = true;
-            axios
-                .post("/api/barang", { value })
-                .then((response) => {
-                    barang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    barang.loading = false;
-                });
-        }, 500);
+        let getDataBarang = (value) =>
+            fetchData(barang, "/api/barang", { value });
 
         let detailBarang = reactive({ ...defaultValue });
 
-        let getDataDetailBarang = debounce((value) => {
-            detailBarang.loading = true;
-            axios
-                .post("/api/barang/detail", {
-                    value,
-                    id_barang: barang.selected.id,
-                })
-                .then((response) => {
-                    detailBarang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    detailBarang.loading = false;
-                });
-        }, 500);
+        let getDataDetailBarang = (value) =>
+            fetchData(detailBarang, "/api/barang/detail", {
+                value,
+                id_barang: barang.selected.id,
+            });
 
         return {
-            hideContent,
-            hideToggle,
             harian,
             barang,
             bulanan,
