@@ -16,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Barang.vue";
+import FormBarang from "@Components/Form/Barang.vue";
 
 export default {
-    components: { FormBarang: Form },
+    components: { FormBarang },
     setup() {
         const barang = useForm({
             kode: "",

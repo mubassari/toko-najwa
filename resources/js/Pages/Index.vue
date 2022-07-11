@@ -158,7 +158,6 @@ import { onBeforeMount, onBeforeUnmount } from "@vue/runtime-core";
 
 export default {
     layout: Guest,
-    remember: "login",
     props: { ringkasan: Object },
     setup() {
         let scrolled = ref(false);

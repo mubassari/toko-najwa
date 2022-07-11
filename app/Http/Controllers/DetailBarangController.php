@@ -14,17 +14,17 @@ class DetailBarangController extends Controller
     public function getData(Request $request)
     {
         $detailBarang = DetailBarang::select('id', 'kode', 'nama', 'harga', 'stok')
-        ->orderByRaw('LENGTH(nama), nama')
-        ->when($request->input('value'), function ($query, $role) {
-            $query->where('nama', 'like', "%$role%");
-        })
-        ->when($request->input('restok'), function ($query, $role) {
-            $query->where('restok', '=', $role);
-        })
-        ->when($request->input('id_barang'), function ($query, $role) {
-            $query->where('id_barang', '=', $role);
-        })
-        ->limit(5)->get();
+            ->orderByRaw('LENGTH(nama), nama')
+            ->when($request->input('value'), function ($query, $role) {
+                $query->where('nama', 'like', "%$role%");
+            })
+            ->when($request->input('restok'), function ($query, $role) {
+                $query->where('restok', '=', $role);
+            })
+            ->when($request->input('id_barang'), function ($query, $role) {
+                $query->where('id_barang', '=', $role);
+            })
+            ->limit(5)->get();
         return response()->json($detailBarang, 200);
     }
 
@@ -141,8 +141,8 @@ class DetailBarangController extends Controller
 
         if($detail) {
             return redirect()->route('barang.show', ['barang'=>$barang->id])->with([
-                'status'=>'success',
-                'message'=>'Data Detail Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Detail Berhasil Diperbarui!'
             ]);
         }
     }
@@ -159,8 +159,8 @@ class DetailBarangController extends Controller
 
         if($detail) {
             return redirect()->route('barang.show', ['barang'=>$barang->id])->with([
-                'status'=>'success',
-                'message'=>'Data Detail Berhasil Dihapus!'
+                'status'  => 'success',
+                'message' => 'Data Detail Berhasil Dihapus!'
             ]);
         }
     }

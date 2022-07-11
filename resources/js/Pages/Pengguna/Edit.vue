@@ -20,10 +20,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/User.vue";
+import FormUser from "@Components/Form/User.vue";
 
 export default {
-    components: { FormUser: Form },
+    components: { FormUser },
     props: { user: Object },
     setup(props) {
         const id = props.user.id;

@@ -16,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Supplier.vue";
+import FormSupplier from "@Components/Form/Supplier.vue";
 
 export default {
-    components: { FormSupplier: Form },
+    components: { FormSupplier },
     setup() {
         const supplier = useForm({ nama: "", alamat: "", no_telp: "" });
         return { supplier };

@@ -52,7 +52,7 @@ class PembelianController extends Controller
 
             return Inertia::render('Transaksi/Pembelian/Index', [
             'pembelians' => $pembelians,
-            'filters'=> $request->only(['date'])
+            'filters'    => $request->only(['date'])
         ]);
     }
 

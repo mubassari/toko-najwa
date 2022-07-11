@@ -23,10 +23,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/DetailBarang.vue";
+import FormDetail from "@Components/Form/DetailBarang.vue";
 
 export default {
-    components: { FormDetail: Form },
+    components: { FormDetail },
     props: { barang: Object },
     setup(props) {
         const detail = useForm({

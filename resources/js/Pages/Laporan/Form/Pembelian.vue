@@ -122,6 +122,7 @@
                         :internal-search="false"
                         :disabled="
                             barang.selected === null ||
+                            barang.selected.length < 1 ||
                             barang.selected.jumlah_jenis < 1
                         "
                         v-model="detailBarang.selected"
@@ -209,7 +210,7 @@
     </accordion-card>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
+import VSelect from "vue-multiselect";
 import FormReport from "@Components/Form/Report.vue";
 import Datepicker from "vue3-datepicker";
 import AccordionCard from "@Components/AccordionCard.vue";
@@ -217,7 +218,7 @@ import AccordionCard from "@Components/AccordionCard.vue";
 export default {
     components: {
         FormReport,
-        VSelect: VueMultiselect,
+        VSelect,
         Datepicker,
         AccordionCard,
     },

@@ -16,7 +16,7 @@ import { onBeforeMount, onBeforeUnmount } from "@vue/runtime-core";
 export default {
     setup() {
         let scrolled = ref(false);
-        let handleScroll = (event) => (scrolled.value = window.scrollY > 100);
+        let handleScroll = () => (scrolled.value = window.scrollY > 100);
         let scrollToTop = () => window.scrollTo(0, 0);
         onBeforeMount(() => window.addEventListener("scroll", handleScroll));
         onBeforeUnmount(() =>

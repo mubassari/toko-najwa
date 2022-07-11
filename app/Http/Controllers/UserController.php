@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
@@ -35,18 +35,9 @@ class UserController extends Controller
             ->withQueryString();
 
         return Inertia::render('Pengguna/Index', [
-            'users' => $users,
-            'filters'=>$request->only(['search'])
+            'users'   => $users,
+            'filters' => $request->only(['search'])
         ]);
-    }
-
-    public function getData(Request $request)
-    {
-        $users = User::select('id', 'nama')
-        ->when($request->input('value'), function ($query, $role) {
-            $query->where('nama', 'like', "%$role%");
-        })->limit(5)->get();
-        return response()->json($users, 200);
     }
 
     /**
@@ -76,8 +67,8 @@ class UserController extends Controller
 
         if($user) {
             return redirect()->route('user.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Disimpan!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Disimpan!'
             ]);
         }
     }
@@ -113,8 +104,8 @@ class UserController extends Controller
 
         if($user) {
             return redirect()->route('user.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Diperbarui!'
             ]);
         }
     }
@@ -131,8 +122,7 @@ class UserController extends Controller
 
         if($user) {
             return redirect()->route('user.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Dihapus!'
+                'message' => 'Data Berhasil Dihapus!'
             ]);
         }
     }

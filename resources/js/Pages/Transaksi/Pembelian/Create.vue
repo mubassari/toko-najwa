@@ -16,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Pembelian.vue";
+import FormPembelian from "@Components/Form/Pembelian.vue";
 
 export default {
-    components: { FormPembelian: Form },
+    components: { FormPembelian },
     setup() {
         const pembelian = useForm({ supplier: null, barang: [], no_nota: "" });
         return { pembelian };

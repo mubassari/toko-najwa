@@ -61,90 +61,6 @@ class ReportController extends Controller
         return \Inertia\Inertia::render('Laporan/Index');
     }
 
-    public function test(Request $request){
-
-        $dd = $request->filter;
-        $detail = DetailBarang::find($dd['barang']);
-        $detail_position = $detail->Barang->DetailBarang->pluck('id')->search($dd['barang']);
-        $id_detail = $detail->Barang->Kategori->kode.'/'.$detail->Barang->kode.'/'.\Str::padleft($detail_position, 3, 0);
-        \Arr::set($dd, 'barang', $id_detail);
-        $jual = \App\Models\Penjualan::whereDate('tanggal', date('d', strtotime($item->Penjualan->tanggal)))->get()->map(function($item){
-            return $item->DetailPenjualan;
-        })->flatten(1)->pluck('id')->search(1);
-        dd($jual);
-        $datas = collect([
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'B'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'B'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'B'],
-            ['nama' => 'A'],
-            ['nama' => 'A'],
-            ['nama' => 'B'],
-        ]);
-        // Gunakan Request filter
-        // {
-        //     "filter": {
-        // 	    "key": "value"
-        //     }
-        // }
-        // Atau
-        // { "filter": 'value'}
-
-        // Gunakan Request telegram
-        // { "telegram": true ATAU false }
-
-        // Gunakan Request type
-        // { "type": "value"}
-
-        $title = 'Laporan Test';
-        switch ($request->type) {
-            case 'restok':
-                $title .= ' Perlu Restok';
-                break;
-            case 'tidak-restok':
-                $title .= ' Tidak Restok';
-                break;
-            default:
-                $title .= '';
-                break;
-        }
-
-        $pdf = PDF::loadview('report.test', [
-            'datas' => $datas->values(),
-            'filter'=> $request->filter,
-            'type'  => $request->type,
-            'title' => $title
-        ])->setPaper('legal', 'landscape');
-
-        $pdf_title = $title.'.pdf';
-
-        if ($request->telegram) {
-            $response = $this->sendDocument($pdf, $pdf_title);
-            return response()->json(["status" => 200, "data"=> $response]);
-        } else {
-            return $pdf->stream($pdf_title);
-            // return view('report.test', [
-            //     'datas' => $datas->values(),
-            //     'filter'=> $request->filter,
-            //     'type'  => $request->type,
-            //     'title' => $title
-            // ]);
-        }
-    }
-    // ->sortBy([
-    //     fn ($a, $b) => $a->Barang->nama <=> $b->Barang->nama,
-    //     fn ($a, $b) => $a->nama <=> $b->nama,
-    // ])
     public function barang(Request $request){
         switch ($request->type) {
             case 'restok' || 'tidak-restok':
@@ -211,10 +127,10 @@ class ReportController extends Controller
                 break;
         }
         $pdf = PDF::loadview('report.barang', [
-            'datas' => $datas->values(),
-            'filter'=> $request->filter,
-            'type'  => $request->type,
-            'title' => $request->title
+            'datas'  => $datas->values(),
+            'filter' => $request->filter,
+            'type'   => $request->type,
+            'title'  => $request->title
         ])->setPaper('legal', 'landscape');
 
         $pdf_title = $request->title.'.pdf';
@@ -243,10 +159,10 @@ class ReportController extends Controller
         });
 
         $pdf = PDF::loadview('report.supplier', [
-            'datas' => $datas->values(),
-            'filter'=> $request->filter,
-            'type'  => $request->type,
-            'title' => $request->title
+            'datas'  => $datas->values(),
+            'filter' => $request->filter,
+            'type'   => $request->type,
+            'title'  => $request->title
         ])->setPaper('legal', 'landscape');
 
         $pdf_title = $request->title.'.pdf';
@@ -268,14 +184,14 @@ class ReportController extends Controller
                 })->map(function($item) {
                     $kembali = $item->Pengembalian ? $item->Pengembalian->jumlah : 0;
                     return [
-                        'tanggal'  => $this->formatDate($item->Pembelian->tanggal, 'date'),
-                        'no_nota'  => $item->Pembelian->no_nota,
-                        'supplier' => $item->Pembelian->Supplier->nama,
-                        'jumlah'   => $item->jumlah,
-                        'kembali'  => $kembali,
-                        'satuan'   => $item->DetailBarang->Barang->Satuan->nama,
-                        'harga'    => $this->formatCurrency($item->harga),
-                        'total'    => $this->formatCurrency($item->harga * ($item->jumlah - $kembali)),
+                        'tanggal'     => $this->formatDate($item->Pembelian->tanggal, 'date'),
+                        'no_nota'     => $item->Pembelian->no_nota,
+                        'supplier'    => $item->Pembelian->Supplier->nama,
+                        'jumlah'      => $item->jumlah,
+                        'kembali'     => $kembali,
+                        'satuan'      => $item->DetailBarang->Barang->Satuan->nama,
+                        'harga'       => $this->formatCurrency($item->harga),
+                        'total'       => $this->formatCurrency($item->harga * ($item->jumlah - $kembali)),
                         'total_plain' => $item->harga * ($item->jumlah - $kembali)
                     ];
                 });
@@ -340,10 +256,10 @@ class ReportController extends Controller
         }
 
         $pdf = PDF::loadview('report.pembelian', [
-            'datas' => $datas->values(),
-            'filter'=> $filter,
-            'type'  => $request->type,
-            'title' => $request->title
+            'datas'  => $datas->values(),
+            'filter' => $filter,
+            'type'   => $request->type,
+            'title'  => $request->title
         ])->setPaper('legal', 'landscape');
 
         $pdf_title = $request->title.'.pdf';
@@ -481,10 +397,10 @@ class ReportController extends Controller
         }
 
         $pdf = PDF::loadview('report.penjualan', [
-            'datas' => $datas->values(),
-            'filter'=> $filter,
-            'type'  => $request->type,
-            'title' => $request->title
+            'datas'  => $datas->values(),
+            'filter' => $filter,
+            'type'   => $request->type,
+            'title'  => $request->title
         ])->setPaper('legal', 'landscape');
 
         $pdf_title = $request->title.'.pdf';

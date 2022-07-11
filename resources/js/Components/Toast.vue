@@ -41,27 +41,18 @@
     </transition>
 </template>
 <script>
+import { onMounted, ref, watch } from "vue";
 export default {
-    data() {
-        return { visible: false };
-    },
     props: { toast: Object, popstate: Boolean },
-    mounted() {
-        this.handleToast();
-    },
-    watch: {
-        toast: {
-            deep: true,
-            handler() {
-                this.handleToast();
-            },
-        },
-    },
-    methods: {
-        handleToast() {
-            this.visible = true;
-            setTimeout(() => (this.visible = false), 2000);
-        },
+    setup(props) {
+        let visible = ref(false);
+        let handleToast = () => {
+            visible.value = true;
+            setTimeout(() => (visible.value = false), 2000);
+        };
+        onMounted(() => handleToast());
+        watch(props.toast, () => handleToast(), { deep: true });
+        return { visible };
     },
 };
 </script>

@@ -211,15 +211,23 @@
     </form>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
+import VSelect from "vue-multiselect";
 import { reactive } from "vue";
-import { debounce } from "lodash";
 
 export default {
-    components: { VSelect: VueMultiselect },
+    components: { VSelect },
     props: { penjualan: Object },
     remember: "penjualan",
     setup() {
+        let fetchData = _.debounce((data, url, content) => {
+            data.loading = true;
+            axios
+                .post(url, content)
+                .then((response) => (data.options = response.data))
+                .catch((errors) => console.error("error: ", errors))
+                .finally(() => (data.loading = false));
+        }, 500);
+
         let defaultValueBarang = {
             options: [],
             selected: null,
@@ -228,41 +236,17 @@ export default {
 
         let barang = reactive({ ...defaultValueBarang });
 
-        let getDataBarang = debounce((value) => {
-            barang.loading = true;
-            axios
-                .post("/api/barang", { value })
-                .then((response) => {
-                    barang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    barang.loading = false;
-                });
-        }, 500);
+        let getDataBarang = (value) =>
+            fetchData(barang, "/api/barang", { value });
 
         let detailBarang = reactive({ ...defaultValueBarang, jumlah: 0 });
 
-        let getDataDetailBarang = debounce((value) => {
-            detailBarang.loading = true;
-            axios
-                .post("/api/barang/detail", {
-                    value,
-                    restok: true,
-                    id_barang: barang.selected.id,
-                })
-                .then((response) => {
-                    detailBarang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    detailBarang.loading = false;
-                });
-        }, 500);
+        let getDataDetailBarang = (value) =>
+            fetchData(detailBarang, "/api/barang/detail", {
+                value,
+                restok: true,
+                id_barang: barang.selected.id,
+            });
 
         let pushBarang = (arr, val) => {
             let index = arr.findIndex((object) => object.id === val.id);
@@ -275,8 +259,6 @@ export default {
                         satuan: barang.selected.satuan,
                     });
                 }
-                // } else {
-                //     arr[index]["jumlah"] += detailBarang.jumlah;
                 Object.assign(barang, defaultValueBarang);
                 Object.assign(detailBarang, {
                     ...defaultValueBarang,

@@ -1,6 +1,6 @@
 <template>
     <h5 class="card-subtitle mb-3">{{ title }}</h5>
-    <slot />
+    <slot></slot>
     <div class="btn-group">
         <button class="btn btn-success" @click="printPDF()">
             <i class="fas fa-file-pdf me-2"></i> Cetak PDF

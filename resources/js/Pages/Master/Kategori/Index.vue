@@ -76,7 +76,6 @@
 import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "@Components/Pagination";
-import { debounce } from "lodash";
 
 export default {
     components: { Pagination },
@@ -85,7 +84,7 @@ export default {
         let search = ref(props.filters.search);
         watch(
             search,
-            debounce((value) => {
+            _.debounce((value) => {
                 Inertia.get(
                     "/master/kategori",
                     { search: value },

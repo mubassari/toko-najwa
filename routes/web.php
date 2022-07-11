@@ -1,16 +1,16 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\DetailBarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PembelianController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SatuanController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -54,9 +54,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('laporan')->name('laporan.')->group(function () {
         Route::get('', [ReportController::class, 'index'])->name("index");
-        Route::prefix('test')->name('test.')->group(function () {
-            Route::post('', [ReportController::class, 'test'])->name('pdf');
-        });
         Route::prefix('barang')->name('barang.')->group(function () {
             Route::post('', [ReportController::class, 'barang'])->name('pdf');
         });

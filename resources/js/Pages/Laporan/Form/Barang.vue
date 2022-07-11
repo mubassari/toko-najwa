@@ -89,12 +89,12 @@
     </accordion-card>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
+import VSelect from "vue-multiselect";
 import FormReport from "@Components/Form/Report.vue";
 import AccordionCard from "@Components/AccordionCard.vue";
 
 export default {
-    components: { FormReport, VSelect: VueMultiselect, AccordionCard },
+    components: { FormReport, VSelect, AccordionCard },
     props: { kategori: Object },
     emits: ["getKategori"],
     data() {

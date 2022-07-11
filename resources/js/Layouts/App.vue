@@ -11,7 +11,11 @@
                     :toast="$page.props.toast"
                     :popstate="$page.props.popstate"
                 />
-                <slot />
+                <transition name="fade" mode="out-in" appear>
+                    <div v-if="$slots.default">
+                        <slot></slot>
+                    </div>
+                </transition>
             </main>
         </div>
     </div>
@@ -24,17 +28,16 @@ import Sidebar from "@Components/Sidebar.vue";
 import Navbar from "@Components/Navbar.vue";
 import Toast from "@Components/Toast.vue";
 import ScrollTop from "@Components/ScrollTop.vue";
+import { ref } from "@vue/reactivity";
 
 export default {
     components: { Sidebar, Navbar, Toast, ScrollTop },
     inheritAttrs: true,
-    data() {
-        return { sidebarToggled: false };
-    },
-    methods: {
-        toggleSidebar() {
-            this.sidebarToggled = !this.sidebarToggled;
-        },
+    setup() {
+        let sidebarToggled = ref(false);
+        let toggleSidebar = () =>
+            (sidebarToggled.value = !sidebarToggled.value);
+        return { sidebarToggled, toggleSidebar };
     },
 };
 </script>

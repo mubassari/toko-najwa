@@ -42,7 +42,7 @@ class BarangController extends Controller
 
         return Inertia::render('Master/Barang/Index', [
             'barangs' => $barangs,
-            'filters'=> $request->only(['search'])
+            'filters' => $request->only(['search'])
         ]);
     }
 
@@ -56,11 +56,11 @@ class BarangController extends Controller
         ->withCount('DetailBarang as jumlah_jenis')
         ->limit(5)->get()->map(function($data) {
             return [
-                'id'           => $data->id,
-                'kode'         => $data->kode,
-                'nama'         => $data->nama,
-                'satuan'       => $data->Satuan->nama,
-                'kategori'     => $data->Kategori->nama,
+                'id'       => $data->id,
+                'kode'     => $data->kode,
+                'nama'     => $data->nama,
+                'satuan'   => $data->Satuan->nama,
+                'kategori' => $data->Kategori->nama,
             ];
         });
 
@@ -89,8 +89,8 @@ class BarangController extends Controller
         try {
             DB::beginTransaction();
             $barang = Barang::create([
-                'kode'     => $request->kode,
-                'nama'     => $request->nama,
+                'kode'        => $request->kode,
+                'nama'        => $request->nama,
                 'id_kategori' => $request->kategori['id'],
                 'id_satuan'   => $request->satuan['id'],
             ]);
@@ -104,8 +104,8 @@ class BarangController extends Controller
 
             return redirect()->route('barang.show', ['barang' => $barang->id])
                     ->with([
-                        'status'=>'success',
-                        'message'=>'Data Berhasil Disimpan!'
+                        'status'  => 'success',
+                        'message' => 'Data Berhasil Disimpan!'
             ]);
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -193,8 +193,8 @@ class BarangController extends Controller
 
         if($barang) {
             return redirect()->route('barang.show', ['barang' => $barang->id])->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Diperbarui!'
             ]);
         }
     }
@@ -212,8 +212,8 @@ class BarangController extends Controller
 
         if($barang) {
             return redirect()->route('barang.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Dihapus!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Dihapus!'
             ]);
         }
     }

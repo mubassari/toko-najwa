@@ -155,33 +155,29 @@
     </form>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
+import VSelect from "vue-multiselect";
 import { reactive } from "vue";
-import { debounce } from "lodash";
 export default {
-    components: { VSelect: VueMultiselect },
+    components: { VSelect },
     props: { detail: Object, barang: Object },
     remember: "detail",
     setup() {
+        let fetchData = _.debounce((data, url, content) => {
+            data.loading = true;
+            axios
+                .post(url, content)
+                .then((response) => (data.options = response.data))
+                .catch((errors) => console.error("error: ", errors))
+                .finally(() => (data.loading = false));
+        }, 500);
+
         let supplier = reactive({
             options: [],
             loading: false,
         });
 
-        let getDataSupplier = debounce((value) => {
-            supplier.loading = true;
-            axios
-                .post("/api/supplier", { value })
-                .then((response) => {
-                    supplier.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    supplier.loading = false;
-                });
-        }, 500);
+        let getDataSupplier = (value) =>
+            fetchData(supplier, "/api/supplier", { value });
 
         return { supplier, getDataSupplier };
     },

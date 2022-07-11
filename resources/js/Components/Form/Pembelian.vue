@@ -320,15 +320,23 @@
     </form>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
+import VSelect from "vue-multiselect";
 import { reactive } from "vue";
-import { debounce } from "lodash";
 
 export default {
-    components: { VSelect: VueMultiselect },
+    components: { VSelect },
     props: { pembelian: Object },
     remember: "pembelian",
     setup() {
+        let fetchData = _.debounce((data, url, content) => {
+            data.loading = true;
+            axios
+                .post(url, content)
+                .then((response) => (data.options = response.data))
+                .catch((errors) => console.error("error: ", errors))
+                .finally(() => (data.loading = false));
+        }, 500);
+
         let defaultValueBarang = {
             options: [],
             selected: null,
@@ -340,37 +348,13 @@ export default {
             loading: false,
         });
 
-        let getDataSupplier = debounce((value) => {
-            supplier.loading = true;
-            axios
-                .post("/api/supplier", { value })
-                .then((response) => {
-                    supplier.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    supplier.loading = false;
-                });
-        }, 500);
+        let getDataSupplier = (value) =>
+            fetchData(supplier, "/api/supplier", { value });
 
         let barang = reactive({ ...defaultValueBarang });
 
-        let getDataBarang = debounce((value) => {
-            barang.loading = true;
-            axios
-                .post("/api/barang", { value })
-                .then((response) => {
-                    barang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    barang.loading = false;
-                });
-        }, 500);
+        let getDataBarang = (value) =>
+            fetchData(barang, "/api/barang", { value });
 
         let detailBarang = reactive({
             ...defaultValueBarang,
@@ -379,24 +363,12 @@ export default {
             kembali: 0,
         });
 
-        let getDataDetailBarang = debounce((value) => {
-            detailBarang.loading = true;
-            axios
-                .post("/api/barang/detail", {
-                    value,
-                    restok: true,
-                    id_barang: barang.selected.id,
-                })
-                .then((response) => {
-                    detailBarang.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    detailBarang.loading = false;
-                });
-        }, 500);
+        let getDataDetailBarang = (value) =>
+            fetchData(detailBarang, "/api/barang/detail", {
+                value,
+                restok: true,
+                id_barang: barang.selected.id,
+            });
 
         let checkBarangDuplicate = (arr, val) =>
             arr.findIndex((object) => object.id === val.id);

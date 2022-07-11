@@ -44,7 +44,10 @@
                     :disabled="supplier.processing"
                     :class="{ 'is-invalid': supplier.errors.no_telp }"
                     v-model="supplier.no_telp"
-                    @input="onlyNumber"
+                    @input="
+                        supplier.clearErrors('no_telp');
+                        onlyNumber;
+                    "
                     placeholder="Masukkan Nomor Telepon Supplier"
                 />
                 <transition name="fade">

@@ -135,22 +135,33 @@
     </form>
 </template>
 <script>
-import VueMultiselect from "vue-multiselect";
-import { reactive } from "vue";
-import { debounce } from "lodash";
+import VSelect from "vue-multiselect";
+import { reactive, watch } from "vue";
 
 export default {
-    components: { VSelect: VueMultiselect },
+    components: { VSelect },
     props: { barang: Object },
     remember: "barang",
-    watch: {
-        "barang.kode": function (val) {
-            this.barang.kode = this.barang.kode
-                .toUpperCase()
-                .replaceAll(/[^A-Z]/g, "");
-        },
-    },
-    setup() {
+    setup(props) {
+        watch(
+            props.barang,
+            () => {
+                props.barang.kode = props.barang.kode
+                    .toUpperCase()
+                    .replaceAll(/[^A-Z]/g, "");
+            },
+            { deep: true }
+        );
+
+        let fetchData = _.debounce((data, url, content) => {
+            data.loading = true;
+            axios
+                .post(url, content)
+                .then((response) => (data.options = response.data))
+                .catch((errors) => console.error("error: ", errors))
+                .finally(() => (data.loading = false));
+        }, 500);
+
         let defaultValueMultiselect = {
             options: [],
             loading: false,
@@ -158,37 +169,13 @@ export default {
 
         let satuan = reactive({ ...defaultValueMultiselect });
 
-        let getDataSatuan = debounce((value) => {
-            satuan.loading = true;
-            axios
-                .post("/api/satuan", { value })
-                .then((response) => {
-                    satuan.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    satuan.loading = false;
-                });
-        }, 500);
+        let getDataSatuan = (value) =>
+            fetchData(satuan, "/api/satuan", { value });
 
         let kategori = reactive({ ...defaultValueMultiselect });
 
-        let getDataKategori = debounce((value) => {
-            kategori.loading = true;
-            axios
-                .post("/api/kategori", { value })
-                .then((response) => {
-                    kategori.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    kategori.loading = false;
-                });
-        }, 500);
+        let getDataKategori = (value) =>
+            fetchData(kategori, "/api/kategori", { value });
 
         return {
             satuan,

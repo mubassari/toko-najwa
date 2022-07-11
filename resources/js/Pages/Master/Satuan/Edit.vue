@@ -16,16 +16,14 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Satuan.vue";
+import FormSatuan from "@Components/Form/Satuan.vue";
 
 export default {
-    components: { FormSatuan: Form },
+    components: { FormSatuan },
     props: { satuan: Object },
     setup(props) {
         const id = props.satuan.id;
-        const satuan = useForm({
-            nama: props.satuan.nama,
-        });
+        const satuan = useForm({ nama: props.satuan.nama });
         return { satuan, id };
     },
 };

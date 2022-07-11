@@ -16,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Kategori.vue";
+import FormKategori from "@Components/Form/Kategori.vue";
 
 export default {
-    components: { FormKategori: Form },
+    components: { FormKategori },
     props: { kategori: Object },
     setup(props) {
         const id = props.kategori.id;

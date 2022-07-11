@@ -12,7 +12,11 @@
         </div>
     </nav>
     <main>
-        <slot></slot>
+        <transition name="fade" mode="out-in" appear>
+            <div v-if="$slots.default">
+                <slot></slot>
+            </div>
+        </transition>
     </main>
     <scroll-top></scroll-top>
 </template>

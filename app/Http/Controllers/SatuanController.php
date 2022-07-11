@@ -26,16 +26,16 @@ class SatuanController extends Controller
 
         return Inertia::render('Master/Satuan/Index', [
             'satuans' => $satuans,
-            'filters'=>$request->only(['search'])
+            'filters' => $request->only(['search'])
         ]);
     }
 
     public function getData(Request $request)
     {
         $satuans = Satuan::select('id', 'nama')
-        ->when($request->input('value'), function ($query, $role) {
-            $query->where('nama', 'like', "%$role%");
-        })->limit(5)->get();
+            ->when($request->input('value'), function ($query, $role) {
+                $query->where('nama', 'like', "%$role%");
+            })->limit(5)->get();
         return response()->json($satuans, 200);
     }
 
@@ -59,13 +59,13 @@ class SatuanController extends Controller
     {
         $request->validated();
         $satuan = Satuan::create([
-            'nama'     => $request->nama,
+            'nama' => $request->nama,
         ]);
 
         if($satuan) {
             return redirect()->route('satuan.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Disimpan!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Disimpan!'
             ]);
         }
     }
@@ -94,13 +94,13 @@ class SatuanController extends Controller
     {
         $request->validated();
         $satuan->update([
-            'nama'     => $request->nama,
+            'nama' => $request->nama,
         ]);
 
         if($satuan) {
             return redirect()->route('satuan.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Diperbarui!'
             ]);
         }
     }
@@ -117,8 +117,8 @@ class SatuanController extends Controller
 
         if($satuan) {
             return redirect()->route('satuan.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Dihapus!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Dihapus!'
             ]);
         }
     }

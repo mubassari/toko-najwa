@@ -16,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Satuan.vue";
+import FormSatuan from "@Components/Form/Satuan.vue";
 
 export default {
-    components: { FormSatuan: Form },
+    components: { FormSatuan },
     setup() {
         const satuan = useForm({ nama: "" });
         return { satuan };

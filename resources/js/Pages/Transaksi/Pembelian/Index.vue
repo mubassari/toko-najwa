@@ -82,7 +82,6 @@
 import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import Pagination from "@Components/Pagination";
-import { debounce } from "lodash";
 import Datepicker from "vue3-datepicker";
 import id from "date-fns/locale/id";
 
@@ -96,7 +95,7 @@ export default {
         let locale = ref(id);
         watch(
             date,
-            debounce((value) => {
+            _.debounce((value) => {
                 Inertia.get(
                     "/transaksi/pembelian",
                     {

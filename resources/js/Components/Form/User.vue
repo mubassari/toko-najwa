@@ -25,7 +25,10 @@
                 :disabled="user.processing"
                 :class="{ 'is-invalid': user.errors.no_telp }"
                 v-model="user.no_telp"
-                @input="user.clearErrors('no_telp')"
+                @input="
+                    user.clearErrors('no_telp');
+                    onlyNumber;
+                "
                 placeholder="Masukkan Nomor Telepon Pengguna"
             />
             <transition name="fade">
@@ -43,7 +46,7 @@
                 v-model="user.role"
                 @click="user.clearErrors('role')"
             >
-            <option disabled selected value="">— Pilih Role —</option>
+                <option disabled selected value="">— Pilih Role —</option>
                 <option value="admin">Admin</option>
                 <option value="staf">Staf</option>
             </select>
@@ -74,7 +77,16 @@
 </template>
 <script>
 export default {
-    props: { user: Object, disableRole:Boolean },
+    props: { user: Object, disableRole: Boolean },
     remember: "user",
+    computed: {
+        onlyNumber() {
+            this.supplier.clearErrors("no_telp");
+            this.supplier.no_telp = this.supplier.no_telp.replaceAll(
+                /^0|\D/g,
+                ""
+            );
+        },
+    },
 };
 </script>

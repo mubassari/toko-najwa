@@ -1,7 +1,5 @@
 <template>
-    <inertia-head
-        :title="`Ubah Supplier | ${supplier.nama}`"
-    ></inertia-head>
+    <inertia-head :title="`Ubah Supplier | ${supplier.nama}`"></inertia-head>
     <div>
         <div class="card border-0 rounded shadow">
             <div class="card-body">
@@ -18,10 +16,10 @@
 
 <script>
 import { useForm } from "@inertiajs/inertia-vue3";
-import Form from "@Components/Form/Supplier.vue";
+import FormSupplier from "@Components/Form/Supplier.vue";
 
 export default {
-    components: { FormSupplier: Form },
+    components: { FormSupplier },
     props: { supplier: Object },
     setup(props) {
         const id = props.supplier.id;

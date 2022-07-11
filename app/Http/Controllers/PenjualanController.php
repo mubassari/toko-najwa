@@ -76,7 +76,7 @@ class PenjualanController extends Controller
             $penjualan = Penjualan::create();
 
             foreach ($request->barang as $key => $barang) {
-                $detail_barang = DetailBarang::find($barang['id']);
+                $detail_barang        = DetailBarang::find($barang['id']);
                 $detail_barang->stok -= $barang['jumlah'];
                 $detail_barang->save();
 

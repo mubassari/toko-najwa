@@ -26,16 +26,16 @@ class SupplierController extends Controller
 
         return Inertia::render('Master/Supplier/Index', [
             'suppliers' => $suppliers,
-            'filters'=>$request->only(['search'])
+            'filters'   => $request->only(['search'])
         ]);
     }
 
     public function getData(Request $request)
     {
         $suppliers = Supplier::select('id', 'nama')
-        ->when($request->input('value'), function ($query, $role) {
-            $query->where('nama', 'like', "%$role%");
-        })->limit(5)->get();
+            ->when($request->input('value'), function ($query, $role) {
+                $query->where('nama', 'like', "%$role%");
+            })->limit(5)->get();
         return response()->json($suppliers, 200);
     }
 
@@ -59,15 +59,15 @@ class SupplierController extends Controller
     {
         $request->validated();
         $supplier = Supplier::create([
-            'nama'     => $request->nama,
-            'alamat'     => $request->alamat,
-            'no_telp'     => $request->no_telp,
+            'nama'    => $request->nama,
+            'alamat'  => $request->alamat,
+            'no_telp' => $request->no_telp,
         ]);
 
         if($supplier) {
             return redirect()->route('supplier.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Disimpan!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Disimpan!'
             ]);
         }
     }
@@ -96,15 +96,15 @@ class SupplierController extends Controller
     {
         $request->validated();
         $supplier->update([
-            'nama'     => $request->nama,
-            'alamat'     => $request->alamat,
-            'no_telp'     => $request->no_telp,
+            'nama'    => $request->nama,
+            'alamat'  => $request->alamat,
+            'no_telp' => $request->no_telp,
         ]);
 
         if($supplier) {
             return redirect()->route('supplier.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Diperbarui!'
             ]);
         }
     }
@@ -121,8 +121,8 @@ class SupplierController extends Controller
 
         if($supplier) {
             return redirect()->route('supplier.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Dihapus!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Dihapus!'
             ]);
         }
     }

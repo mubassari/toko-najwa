@@ -32,7 +32,6 @@
 </template>
 <script>
 import { reactive } from "vue";
-import { debounce } from "lodash";
 import id from "date-fns/locale/id";
 
 import LaporanBarang from "./Form/Barang.vue";
@@ -50,19 +49,13 @@ export default {
         LaporanSupplier,
     },
     setup() {
-        let fetchData = debounce((data, url, content) => {
+        let fetchData = _.debounce((data, url, content) => {
             data.loading = true;
             axios
                 .post(url, content)
-                .then((response) => {
-                    data.options = response.data;
-                })
-                .catch((errors) => {
-                    console.log("error", errors);
-                })
-                .finally(() => {
-                    data.loading = false;
-                });
+                .then((response) => (data.options = response.data))
+                .catch((errors) => console.error("error: ", errors))
+                .finally(() => (data.loading = false));
         }, 500);
 
         let defaultValue = {

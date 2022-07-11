@@ -26,16 +26,16 @@ class KategoriController extends Controller
 
         return Inertia::render('Master/Kategori/Index', [
             'kategoris' => $kategoris,
-            'filters'=>$request->only(['search'])
+            'filters'   => $request->only(['search'])
         ]);
     }
 
     public function getData(Request $request)
     {
         $kategoris = Kategori::select('id', 'kode', 'nama')
-        ->when($request->input('value'), function ($query, $role) {
-            $query->where('nama', 'like', "%$role%");
-        })->limit(5)->get();
+            ->when($request->input('value'), function ($query, $role) {
+                $query->where('nama', 'like', "%$role%");
+            })->limit(5)->get();
         return response()->json($kategoris, 200);
     }
 
@@ -59,14 +59,14 @@ class KategoriController extends Controller
     {
         $request->validated();
         $kategori = Kategori::create([
-            'kode'     => $request->kode,
-            'nama'     => $request->nama,
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
         if($kategori) {
             return redirect()->route('kategori.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Disimpan!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Disimpan!'
             ]);
         }
     }
@@ -95,14 +95,14 @@ class KategoriController extends Controller
     {
         $request->validated();
         $kategori->update([
-            'kode'     => $request->kode,
-            'nama'     => $request->nama,
+            'kode' => $request->kode,
+            'nama' => $request->nama,
         ]);
 
         if($kategori) {
             return redirect()->route('kategori.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Diperbarui!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Diperbarui!'
             ]);
         }
     }
@@ -119,8 +119,8 @@ class KategoriController extends Controller
 
         if($kategori) {
             return redirect()->route('kategori.index')->with([
-                'status'=>'success',
-                'message'=>'Data Berhasil Dihapus!'
+                'status'  => 'success',
+                'message' => 'Data Berhasil Dihapus!'
             ]);
         }
     }
