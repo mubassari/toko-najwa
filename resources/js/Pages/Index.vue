@@ -2,7 +2,11 @@
     <inertia-head title="Halaman Utama"></inertia-head>
     <section
         class="row m-0 px-5 justify-content-center align-items-center gap-3 bg-dark"
-        style="padding-top: 3.5rem !important; padding-bottom: 6rem !important"
+        style="
+            padding-top: 3.5rem !important;
+            padding-bottom: 6rem !important;
+            min-height: 100vh;
+        "
     >
         <div
             class="col-lg-8 col-12 order-lg-1 order-2 text-white text-lg-start text-center my-5"
