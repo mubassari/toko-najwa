@@ -46,7 +46,7 @@
                     v-model="supplier.no_telp"
                     @input="
                         supplier.clearErrors('no_telp');
-                        onlyNumber;
+                        onlyNumber();
                     "
                     placeholder="Masukkan Nomor Telepon Supplier"
                 />

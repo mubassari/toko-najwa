@@ -27,7 +27,7 @@
                 v-model="user.no_telp"
                 @input="
                     user.clearErrors('no_telp');
-                    onlyNumber;
+                    onlyNumber();
                 "
                 placeholder="Masukkan Nomor Telepon Pengguna"
             />
