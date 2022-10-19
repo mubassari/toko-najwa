@@ -131,7 +131,7 @@
                 class="form-check-label user-select-none"
                 @click="detail.restok = !detail.restok"
             >
-                Perlu di stok ulang
+                Perlu direstok
             </label>
         </div>
         <div class="mb-3">

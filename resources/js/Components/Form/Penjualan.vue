@@ -77,12 +77,41 @@
                     :disabled="
                         penjualan.processing || detailBarang.selected === null
                     "
+                    :class="{
+                        'is-invalid':
+                            detailBarang.jumlah >
+                            (detailBarang.selected
+                                ? detailBarang.selected.stok
+                                : 0),
+                    }"
                     v-model="detailBarang.jumlah"
                     placeholder="Masukkan Jumlah Barang"
                 />
                 <span class="input-group-text" v-if="barang.selected !== null">
                     {{ barang.selected.satuan }}
                 </span>
+                <transition name="fade">
+                    <div
+                        v-if="
+                            barang.selected !== null ||
+                            detailBarang.selected !== null ||
+                            detailBarang.jumlah >
+                                (detailBarang.selected
+                                    ? detailBarang.selected.stok
+                                    : 0)
+                        "
+                        class="invalid-feedback"
+                    >
+                        Maksimal barang
+                        {{
+                            (detailBarang.selected
+                                ? detailBarang.selected.stok
+                                : 0) +
+                            " " +
+                            barang.selected.satuan
+                        }}
+                    </div>
+                </transition>
             </div>
         </div>
         <div class="mb-3">
@@ -92,7 +121,11 @@
                         penjualan.processing ||
                         barang.selected === null ||
                         detailBarang.selected === null ||
-                        detailBarang.jumlah < 1,
+                        detailBarang.jumlah < 1 ||
+                        detailBarang.jumlah >
+                            (detailBarang.selected
+                                ? detailBarang.selected.stok
+                                : 0),
                 }"
                 @click="pushBarang(penjualan.barang, detailBarang.selected)"
                 class="btn btn-primary btn-md shadow-sm"
@@ -244,7 +277,7 @@ export default {
         let getDataDetailBarang = (value) =>
             fetchData(detailBarang, "/api/barang/detail", {
                 value,
-                restok: true,
+                without_zero: true,
                 id_barang: barang.selected.id,
             });
 

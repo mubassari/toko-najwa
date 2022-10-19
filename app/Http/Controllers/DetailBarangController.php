@@ -21,6 +21,9 @@ class DetailBarangController extends Controller
             ->when($request->input('restok'), function ($query, $role) {
                 $query->where('restok', '=', $role);
             })
+            ->when($request->input('without_zero'), function ($query, $role) {
+                $query->where('stok', '>', 0);
+            })
             ->when($request->input('id_barang'), function ($query, $role) {
                 $query->where('id_barang', '=', $role);
             })
@@ -82,7 +85,7 @@ class DetailBarangController extends Controller
             ]);
         } catch (\Throwable $e) {
             DB::rollBack();
-            return rredirect()->route('barang.show', ['barang' => $request->id_barang])
+            return redirect()->route('barang.show', ['barang' => $request->id_barang])
                 ->with([
                     'status'  => 'danger',
                     'message' => 'Data Gagal Disimpan!'

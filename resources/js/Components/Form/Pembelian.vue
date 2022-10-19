@@ -370,11 +370,9 @@ export default {
                 id_barang: barang.selected.id,
             });
 
-        let checkBarangDuplicate = (arr, val) =>
-            arr.findIndex((object) => object.id === val.id);
-
         let pushBarang = (arr, val) => {
-            if (checkBarangDuplicate(arr, val) === -1) {
+            let index = arr.findIndex((object) => object.id === val.id);
+            if (index === -1) {
                 val.nama = barang.selected.nama + " — " + val.nama;
                 arr.push({
                     ...val,

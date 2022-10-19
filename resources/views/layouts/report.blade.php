@@ -11,6 +11,9 @@ $time = \Carbon\Carbon::now();
     <meta name="X-XSRF-TOKEN" content="{{ csrf_token() }}">
     <title>@yield('title')</title>
     <style>
+        body {
+            font-size: 140%;
+        }
         p {
             margin: 0;
             line-height: normal;
@@ -24,6 +27,7 @@ $time = \Carbon\Carbon::now();
 
         table {
             width: 100%;
+            border-collapse: collapse;
         }
 
         table.info>tbody>tr>th {
@@ -35,6 +39,7 @@ $time = \Carbon\Carbon::now();
         }
 
         table#printdata {
+            border: 3px solid black;
             text-align: center;
             page-break-after: auto;
         }
@@ -44,11 +49,21 @@ $time = \Carbon\Carbon::now();
             -webkit-region-break-inside: avoid;
         }
 
-        table#printdata>tbody>tr>td {
+        table#printdata>thead>tr>th {
+            border: 3px solid black;
             text-align: center;
             page-break-inside: avoid;
             page-break-after: auto;
-            font-size: 12pt;
+            font-size: 16pt;
+        }
+
+        table#printdata>tbody>tr>td,
+        table#printdata>tbody>tr>th {
+            border: 3px solid black;
+            text-align: center;
+            page-break-inside: avoid;
+            page-break-after: auto;
+            font-size: 16pt;
         }
 
         table>thead {
@@ -90,6 +105,14 @@ $time = \Carbon\Carbon::now();
             width: 25%;
         }
 
+        .col-4 {
+            width: 33.3%;
+        }
+
+        .col-5 {
+            width: 41.67%;
+        }
+
         .col-6 {
             width: 50%;
         }
@@ -129,7 +152,7 @@ $time = \Carbon\Carbon::now();
         </section>
         <section style="margin-bottom: 1rem">
             <div class="row">
-                <div class="col col-3">
+                <div class="col col-4">
                     <table class="info">
                         <tr>
                             <th>Cetak</th>
@@ -142,7 +165,7 @@ $time = \Carbon\Carbon::now();
                         @yield('filter')
                     </table>
                 </div>
-                <div class="col col-6"></div>
+                <div class="col col-5"></div>
                 <div class="col col-3">
                     <table class="info">
                         <tr>
@@ -170,7 +193,7 @@ $time = \Carbon\Carbon::now();
             @yield('table')
         </table>
     </main>
-    <footer style="margin-top: 1rem; page-break-inside: avoid">
+    <footer style="margin-top: 1.5rem; page-break-inside: avoid">
         <table>
             <tr>
                 <td class="col-3"></td>

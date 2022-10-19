@@ -29,7 +29,7 @@
 export default {
     props: { title: String },
     data() {
-        return { hide: false };
+        return { hide: true };
     },
 };
 </script>
